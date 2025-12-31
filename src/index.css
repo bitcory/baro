@@ -1,33 +1,36 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  /* Duotone Friendly colors */
-  --duo-primary: #6366f1;
-  --duo-primary-light: #818cf8;
-  --duo-primary-dark: #4f46e5;
-  --duo-bg: #fafafa;
-  --duo-surface: #ffffff;
-  --duo-muted: #f4f4f5;
-  --duo-text: #18181b;
-  --duo-text-muted: #71717a;
-  --duo-accent: #8b5cf6;
+  /* Memphis UI colors */
+  --memphis-pink: #FF6B9D;
+  --memphis-yellow: #FFE156;
+  --memphis-teal: #00D4AA;
+  --memphis-blue: #4ECDC4;
+  --memphis-orange: #FF8C42;
+  --memphis-purple: #9B5DE5;
+  --memphis-bg: #FFF8F0;
+  --memphis-black: #1A1A2E;
+  --memphis-red: #FF6B6B;
 }
 
 @layer base {
   html {
     @apply antialiased;
-    font-feature-settings: "rlig" 1, "calt" 1;
     scroll-behavior: smooth;
   }
 
   body {
     min-height: 100vh;
-    background: linear-gradient(135deg, #fafafa 0%, #f4f4f5 100%);
-    color: var(--duo-text);
-    font-weight: 400;
+    background-color: var(--memphis-bg);
+    background-image:
+      radial-gradient(circle at 20% 80%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 40% 40%, rgba(255, 225, 86, 0.1) 0%, transparent 50%);
+    color: var(--memphis-black);
+    font-family: 'Space Grotesk', 'Noto Sans KR', sans-serif;
+    font-weight: 500;
     line-height: 1.6;
   }
 
@@ -38,49 +41,80 @@
 }
 
 @layer components {
-  /* Friendly card style */
-  .friendly-card {
-    @apply bg-white rounded-2xl shadow-soft;
-    transition: all 0.2s ease;
+  /* Memphis card style */
+  .memphis-card {
+    @apply bg-white border-2 border-memphis-black;
+    box-shadow: 4px 4px 0px var(--memphis-black);
+    transition: all 0.15s ease;
   }
 
-  .friendly-card:hover {
-    @apply shadow-soft-lg;
-    transform: translateY(-2px);
+  .memphis-card:hover {
+    box-shadow: 6px 6px 0px var(--memphis-black);
+    transform: translate(-2px, -2px);
   }
 
-  /* Friendly button */
-  .friendly-btn {
-    @apply px-5 py-2.5 rounded-xl font-semibold;
-    @apply bg-duo-primary text-white;
-    @apply shadow-soft hover:shadow-soft-md;
-    transition: all 0.2s ease;
+  /* Memphis button */
+  .memphis-btn {
+    @apply px-6 py-3 font-bold uppercase tracking-wide;
+    @apply bg-memphis-yellow border-2 border-memphis-black text-memphis-black;
+    box-shadow: 3px 3px 0px var(--memphis-black);
+    transition: all 0.1s ease;
   }
 
-  .friendly-btn:hover {
-    @apply bg-duo-primary-dark;
-    transform: translateY(-1px);
+  .memphis-btn:hover {
+    box-shadow: 5px 5px 0px var(--memphis-black);
+    transform: translate(-2px, -2px);
   }
 
-  .friendly-btn:active {
-    transform: translateY(0);
+  .memphis-btn:active {
+    box-shadow: 1px 1px 0px var(--memphis-black);
+    transform: translate(2px, 2px);
   }
 
-  /* Friendly input */
-  .friendly-input {
-    @apply w-full px-4 py-3 rounded-xl;
-    @apply bg-duo-muted border border-transparent;
-    @apply text-duo-text placeholder-duo-text-muted;
-    @apply focus:outline-none focus:border-duo-primary focus:bg-white;
-    @apply focus:ring-2 focus:ring-duo-primary/20;
-    transition: all 0.2s ease;
+  /* Memphis input */
+  .memphis-input {
+    @apply w-full px-4 py-3;
+    @apply bg-white border-2 border-memphis-black text-memphis-black;
+    @apply placeholder-memphis-gray;
+    box-shadow: 3px 3px 0px var(--memphis-black);
+    transition: all 0.15s ease;
   }
 
-  /* Friendly badge */
-  .friendly-badge {
-    @apply inline-flex items-center px-2.5 py-1 rounded-full;
-    @apply text-xs font-medium;
-    @apply bg-duo-primary/10 text-duo-primary;
+  .memphis-input:focus {
+    outline: none;
+    box-shadow: 5px 5px 0px var(--memphis-pink);
+    border-color: var(--memphis-pink);
+  }
+
+  /* Memphis badge */
+  .memphis-badge {
+    @apply inline-flex items-center px-3 py-1;
+    @apply text-xs font-bold uppercase;
+    @apply bg-memphis-teal border-2 border-memphis-black text-memphis-black;
+    box-shadow: 2px 2px 0px var(--memphis-black);
+  }
+
+  /* Memphis shapes */
+  .memphis-circle {
+    @apply rounded-full border-2 border-memphis-black;
+  }
+
+  .memphis-triangle {
+    width: 0;
+    height: 0;
+    border-left: 25px solid transparent;
+    border-right: 25px solid transparent;
+    border-bottom: 40px solid var(--memphis-pink);
+  }
+
+  .memphis-squiggle {
+    background: repeating-linear-gradient(
+      45deg,
+      var(--memphis-yellow),
+      var(--memphis-yellow) 5px,
+      transparent 5px,
+      transparent 10px
+    );
   }
 }
 
@@ -95,24 +129,24 @@
     display: none;
   }
 
-  /* Custom scrollbar - Friendly style */
+  /* Custom scrollbar - Memphis style */
   ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+    width: 12px;
+    height: 12px;
   }
 
   ::-webkit-scrollbar-track {
-    background: var(--duo-muted);
-    border-radius: 4px;
+    background: var(--memphis-bg);
+    border: 2px solid var(--memphis-black);
   }
 
   ::-webkit-scrollbar-thumb {
-    background: var(--duo-primary-light);
-    border-radius: 4px;
+    background: var(--memphis-yellow);
+    border: 2px solid var(--memphis-black);
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: var(--duo-primary);
+    background: var(--memphis-pink);
   }
 
   /* Line clamp */
@@ -130,29 +164,44 @@
     overflow: hidden;
   }
 
-  /* Glass effect */
-  .glass {
-    backdrop-filter: blur(12px);
-    background: rgba(255, 255, 255, 0.8);
+  /* Pattern backgrounds */
+  .pattern-dots {
+    background-image: radial-gradient(var(--memphis-black) 1.5px, transparent 1.5px);
+    background-size: 20px 20px;
+  }
+
+  .pattern-lines {
+    background-image: repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 10px,
+      var(--memphis-black) 10px,
+      var(--memphis-black) 11px
+    );
+  }
+
+  .pattern-zigzag {
+    background: linear-gradient(135deg, var(--memphis-yellow) 25%, transparent 25%) -20px 0,
+      linear-gradient(225deg, var(--memphis-yellow) 25%, transparent 25%) -20px 0,
+      linear-gradient(315deg, var(--memphis-yellow) 25%, transparent 25%),
+      linear-gradient(45deg, var(--memphis-yellow) 25%, transparent 25%);
+    background-size: 40px 40px;
   }
 }
 
 /* Selection */
 ::selection {
-  background: var(--duo-primary-light);
+  background: var(--memphis-pink);
   color: white;
 }
 
 /* Focus styles */
 :focus-visible {
-  outline: 2px solid var(--duo-primary);
+  outline: 3px solid var(--memphis-black);
   outline-offset: 2px;
-  border-radius: 8px;
 }
 
-/* Smooth transitions */
-* {
-  transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
-  transition-timing-function: ease;
-  transition-duration: 150ms;
+/* Remove default smooth transitions for Memphis snappy feel */
+button, a {
+  transition: all 0.1s ease !important;
 }

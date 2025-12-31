@@ -31,21 +31,35 @@ export const ServiceCard = ({
   const iconUrl = getIconUrl();
   const showEmoji = service.icon && !service.icon.startsWith('http');
 
+  // Random accent colors for Memphis style
+  const accentColors = [
+    'bg-memphis-pink',
+    'bg-memphis-yellow',
+    'bg-memphis-teal',
+    'bg-memphis-orange',
+    'bg-memphis-purple',
+  ];
+  const randomColor = accentColors[service.id % accentColors.length];
+
   return (
     <div
       onClick={onClick}
       className={cn(
         "group relative",
-        "bg-white rounded-2xl shadow-soft",
-        "hover:shadow-soft-lg hover:-translate-y-1",
-        "transition-all duration-200",
+        "bg-white border-2 border-memphis-black",
+        "shadow-memphis-sm hover:shadow-memphis",
+        "hover:-translate-x-1 hover:-translate-y-1",
+        "transition-all duration-100",
         editMode ? "cursor-move" : "cursor-pointer",
         className
       )}
     >
+      {/* Decorative corner */}
+      <div className={cn("absolute -top-1 -right-1 w-3 h-3 border-2 border-memphis-black", randomColor)}></div>
+
       <div className="p-5 flex flex-col items-center justify-center space-y-3 h-full min-h-[140px]">
         {/* Icon */}
-        <div className="w-14 h-14 bg-duo-muted rounded-xl flex items-center justify-center group-hover:bg-duo-primary/10 transition-colors">
+        <div className={cn("w-14 h-14 border-2 border-memphis-black flex items-center justify-center", randomColor)}>
           {showEmoji ? (
             <span className="text-2xl">{service.icon}</span>
           ) : iconUrl && !imgError ? (
@@ -56,22 +70,22 @@ export const ServiceCard = ({
               onError={() => setImgError(true)}
             />
           ) : (
-            <Globe className="w-6 h-6 text-duo-text-light" />
+            <Globe className="w-6 h-6 text-memphis-black" />
           )}
         </div>
 
         {/* Service Name */}
         <div className="text-center">
-          <h3 className="text-sm font-semibold text-duo-text line-clamp-1">
+          <h3 className="text-sm font-bold text-memphis-black uppercase line-clamp-1">
             {service.name}
           </h3>
           {showCategory && (
-            <span className="inline-block mt-1.5 px-2 py-0.5 text-xs font-medium bg-duo-primary/10 text-duo-primary rounded-full">
+            <span className="inline-block mt-1.5 px-2 py-0.5 text-xs font-bold bg-memphis-yellow border border-memphis-black text-memphis-black">
               {showCategory}
             </span>
           )}
           {service.description && (
-            <p className="text-xs text-duo-text-muted mt-1 line-clamp-2">
+            <p className="text-xs text-memphis-gray mt-1 line-clamp-2">
               {service.description}
             </p>
           )}
@@ -79,22 +93,22 @@ export const ServiceCard = ({
 
         {/* Hover Indicator */}
         {!editMode && (
-          <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
-            <div className="p-1.5 bg-duo-primary/10 rounded-lg">
-              <ExternalLink className="w-3.5 h-3.5 text-duo-primary" />
+          <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100">
+            <div className="p-1.5 bg-memphis-teal border border-memphis-black">
+              <ExternalLink className="w-3.5 h-3.5 text-memphis-black" />
             </div>
           </div>
         )}
 
         {/* Edit Mode Actions */}
         {editMode && (
-          <div className="absolute top-2 right-2 flex flex-col gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+          <div className="absolute top-2 right-2 flex flex-col gap-1 opacity-0 group-hover:opacity-100">
             <button
               onClick={(e) => {
                 e.stopPropagation();
                 onEdit();
               }}
-              className="p-2 bg-duo-primary text-white rounded-lg shadow-soft hover:scale-110 transition-transform"
+              className="p-2 bg-memphis-teal border border-memphis-black text-memphis-black hover:scale-110"
             >
               <Edit2 size={12} />
             </button>
@@ -103,7 +117,7 @@ export const ServiceCard = ({
                 e.stopPropagation();
                 onDelete();
               }}
-              className="p-2 bg-red-500 text-white rounded-lg shadow-soft hover:scale-110 transition-transform"
+              className="p-2 bg-memphis-red border border-memphis-black text-white hover:scale-110"
             >
               <Trash2 size={12} />
             </button>

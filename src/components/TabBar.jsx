@@ -71,10 +71,20 @@ export const TabBar = ({
     handleDragEnd();
   };
 
+  // Color rotation for Memphis style
+  const tabColors = [
+    'bg-memphis-pink',
+    'bg-memphis-yellow',
+    'bg-memphis-teal',
+    'bg-memphis-orange',
+    'bg-memphis-purple',
+    'bg-memphis-blue',
+  ];
+
   return (
     <div className={cn(
       'sticky top-16 z-40 w-full',
-      'bg-white/80 backdrop-blur-lg border-b border-gray-100',
+      'bg-memphis-cream border-b-4 border-memphis-black',
       className
     )}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -98,37 +108,37 @@ export const TabBar = ({
                 onDragEnd={handleDragEnd}
                 draggable={editMode}
                 className={cn(
-                  "group relative whitespace-nowrap px-4 py-2 rounded-xl font-medium",
-                  "flex items-center gap-2 select-none transition-all duration-200",
+                  "group relative whitespace-nowrap px-4 py-2 font-bold uppercase",
+                  "flex items-center gap-2 select-none border-2 border-memphis-black",
                   activeTab === index
-                    ? "bg-duo-primary text-white shadow-soft"
-                    : "text-duo-text-muted hover:text-duo-text hover:bg-duo-muted",
+                    ? `${tabColors[index % tabColors.length]} shadow-memphis`
+                    : "bg-white text-memphis-black hover:bg-memphis-cream shadow-memphis-sm",
                   draggedIndex === index && "opacity-30",
-                  dragOverIndex === index && draggedIndex !== index && "bg-duo-primary/20",
+                  dragOverIndex === index && draggedIndex !== index && "bg-memphis-yellow",
                   editMode && "cursor-move"
                 )}
               >
                 {editMode && (
                   <GripVertical size={14} className="opacity-50" />
                 )}
-                <span>{category.name}</span>
+                <span className="text-memphis-black">{category.name}</span>
                 <span className={cn(
-                  "px-2 py-0.5 text-xs font-semibold rounded-full",
+                  "px-2 py-0.5 text-xs font-bold border border-memphis-black",
                   activeTab === index
-                    ? "bg-white/20 text-white"
-                    : "bg-duo-primary/10 text-duo-primary"
+                    ? "bg-white text-memphis-black"
+                    : "bg-memphis-yellow text-memphis-black"
                 )}>
                   {category.services.length}
                 </span>
 
                 {editMode && !isDragging && (
-                  <div className="absolute -top-1 -right-1 flex gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="absolute -top-1 -right-1 flex gap-0.5 opacity-0 group-hover:opacity-100">
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
                         onEditCategory(category.id);
                       }}
-                      className="p-1 bg-duo-primary text-white rounded-full shadow-soft hover:scale-110 transition-transform"
+                      className="p-1 bg-memphis-teal border border-memphis-black text-memphis-black hover:scale-110"
                     >
                       <Edit2 size={10} />
                     </button>
@@ -137,7 +147,7 @@ export const TabBar = ({
                         e.stopPropagation();
                         onDeleteCategory(category.id);
                       }}
-                      className="p-1 bg-red-500 text-white rounded-full shadow-soft hover:scale-110 transition-transform"
+                      className="p-1 bg-memphis-red border border-memphis-black text-white hover:scale-110"
                     >
                       <X size={10} />
                     </button>
@@ -150,10 +160,11 @@ export const TabBar = ({
           <button
             onClick={onAddCategory}
             className={cn(
-              "whitespace-nowrap px-4 py-2 rounded-xl",
-              "text-duo-text-light hover:text-duo-primary",
-              "border-2 border-dashed border-gray-200 hover:border-duo-primary",
-              "flex items-center gap-2 transition-all duration-200"
+              "whitespace-nowrap px-4 py-2",
+              "text-memphis-black font-bold uppercase",
+              "border-2 border-dashed border-memphis-black hover:border-solid",
+              "hover:bg-memphis-yellow",
+              "flex items-center gap-2"
             )}
           >
             <Plus size={16} />

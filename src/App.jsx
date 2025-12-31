@@ -490,11 +490,11 @@ function App() {
             <div className="space-y-8">
               {searchTerm && (
                 <div className="mb-6">
-                  <div className="inline-flex items-center gap-2 px-4 py-2 bg-duo-primary/10 rounded-full">
-                    <span className="text-sm font-medium text-duo-primary">
+                  <div className="inline-flex items-center gap-2 px-4 py-2 bg-memphis-yellow border-2 border-memphis-black shadow-memphis-sm">
+                    <span className="text-sm font-bold text-memphis-black uppercase">
                       '{searchTerm}' 검색 결과
                     </span>
-                    <span className="px-2 py-0.5 bg-duo-primary text-white text-xs font-semibold rounded-full">
+                    <span className="px-2 py-0.5 bg-memphis-pink border-2 border-memphis-black text-memphis-black text-xs font-bold">
                       {displayServices.length}
                     </span>
                   </div>
@@ -532,16 +532,16 @@ function App() {
                     onClick={() => addService(currentCategory.id)}
                     className={cn(
                       "group relative overflow-hidden cursor-pointer",
-                      "bg-white/50 border-2 border-dashed border-duo-primary/30 rounded-2xl",
-                      "hover:border-duo-primary hover:bg-duo-primary/5",
-                      "transition-all duration-200"
+                      "bg-memphis-cream border-2 border-dashed border-memphis-black",
+                      "hover:bg-memphis-yellow hover:border-solid",
+                      "transition-all duration-100"
                     )}
                   >
                     <div className="p-6 flex flex-col items-center justify-center space-y-3 h-full min-h-[140px]">
-                      <div className="w-12 h-12 bg-duo-primary/10 rounded-xl flex items-center justify-center group-hover:bg-duo-primary/20 transition-colors">
-                        <Plus size={24} className="text-duo-primary" />
+                      <div className="w-12 h-12 bg-memphis-teal border-2 border-memphis-black flex items-center justify-center group-hover:rotate-12 transition-transform">
+                        <Plus size={24} className="text-memphis-black" />
                       </div>
-                      <span className="text-sm font-medium text-duo-text-muted group-hover:text-duo-primary transition-colors">
+                      <span className="text-sm font-bold text-memphis-black uppercase">
                         추가하기
                       </span>
                     </div>
@@ -550,79 +550,79 @@ function App() {
               </div>
 
               {/* Utility Tools Section */}
-              <div className="mt-16 pt-8 border-t border-gray-200">
+              <div className="mt-16 pt-8 border-t-4 border-memphis-black">
                 <div className="text-center space-y-6">
-                  <h3 className="inline-flex items-center gap-2 text-lg font-bold text-duo-text">
-                    <span className="w-8 h-0.5 bg-duo-primary rounded-full"></span>
+                  <h3 className="inline-flex items-center gap-3 text-lg font-bold text-memphis-black uppercase">
+                    <span className="w-8 h-2 bg-memphis-pink"></span>
                     유용한 유틸
-                    <span className="w-8 h-0.5 bg-duo-primary rounded-full"></span>
+                    <span className="w-8 h-2 bg-memphis-teal"></span>
                   </h3>
                   <div className="flex justify-center gap-3 flex-wrap">
                     <a
                       href="https://www.snipaste.com/"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-5 py-2.5 bg-white rounded-xl shadow-soft hover:shadow-soft-md transition-all hover:-translate-y-0.5"
+                      className="inline-flex items-center gap-2 px-5 py-2.5 bg-white border-2 border-memphis-black shadow-memphis-sm hover:shadow-memphis hover:-translate-x-0.5 hover:-translate-y-0.5"
                     >
-                      <span className="font-medium text-duo-text">Snipaste</span>
-                      <span className="text-xs px-2 py-0.5 bg-duo-primary/10 text-duo-primary rounded-full">캡쳐</span>
+                      <span className="font-bold text-memphis-black">Snipaste</span>
+                      <span className="text-xs px-2 py-0.5 bg-memphis-pink border border-memphis-black font-bold">캡쳐</span>
                     </a>
                     <a
                       href="https://www.voidtools.com/ko-kr/"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-5 py-2.5 bg-white rounded-xl shadow-soft hover:shadow-soft-md transition-all hover:-translate-y-0.5"
+                      className="inline-flex items-center gap-2 px-5 py-2.5 bg-white border-2 border-memphis-black shadow-memphis-sm hover:shadow-memphis hover:-translate-x-0.5 hover:-translate-y-0.5"
                     >
-                      <span className="font-medium text-duo-text">Everything</span>
-                      <span className="text-xs px-2 py-0.5 bg-duo-primary/10 text-duo-primary rounded-full">검색</span>
+                      <span className="font-bold text-memphis-black">Everything</span>
+                      <span className="text-xs px-2 py-0.5 bg-memphis-teal border border-memphis-black font-bold">검색</span>
                     </a>
                     <a
                       href="http://x.photoscape.org/"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-5 py-2.5 bg-white rounded-xl shadow-soft hover:shadow-soft-md transition-all hover:-translate-y-0.5"
+                      className="inline-flex items-center gap-2 px-5 py-2.5 bg-white border-2 border-memphis-black shadow-memphis-sm hover:shadow-memphis hover:-translate-x-0.5 hover:-translate-y-0.5"
                     >
-                      <span className="font-medium text-duo-text">PhotoScape X</span>
-                      <span className="text-xs px-2 py-0.5 bg-duo-primary/10 text-duo-primary rounded-full">편집</span>
+                      <span className="font-bold text-memphis-black">PhotoScape X</span>
+                      <span className="text-xs px-2 py-0.5 bg-memphis-yellow border border-memphis-black font-bold">편집</span>
                     </a>
                     <a
                       href="https://aitoolb.com/61"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-5 py-2.5 bg-white rounded-xl shadow-soft hover:shadow-soft-md transition-all hover:-translate-y-0.5"
+                      className="inline-flex items-center gap-2 px-5 py-2.5 bg-white border-2 border-memphis-black shadow-memphis-sm hover:shadow-memphis hover:-translate-x-0.5 hover:-translate-y-0.5"
                     >
-                      <span className="font-medium text-duo-text">무료캡컷</span>
-                      <span className="text-xs px-2 py-0.5 bg-duo-primary/10 text-duo-primary rounded-full">영상</span>
+                      <span className="font-bold text-memphis-black">무료캡컷</span>
+                      <span className="text-xs px-2 py-0.5 bg-memphis-purple border border-memphis-black font-bold text-white">영상</span>
                     </a>
                   </div>
                 </div>
               </div>
 
               {/* YouTube Section */}
-              <div className="mt-8 pt-8 border-t border-gray-200">
+              <div className="mt-8 pt-8 border-t-4 border-memphis-black">
                 <div className="text-center space-y-4">
                   <a
                     href="https://www.youtube.com/results?search_query=ai%ED%88%B4%EB%B9%84"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-duo-primary to-duo-accent text-white rounded-2xl shadow-soft-lg hover:shadow-glow transition-all hover:-translate-y-0.5"
+                    className="inline-flex items-center gap-3 px-6 py-3 bg-memphis-pink border-2 border-memphis-black shadow-memphis hover:shadow-memphis-lg hover:-translate-x-1 hover:-translate-y-1"
                   >
-                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-5 h-5 text-memphis-black" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
                     </svg>
-                    <span className="font-semibold">AI툴비 유튜브</span>
+                    <span className="font-bold text-memphis-black uppercase">AI툴비 유튜브</span>
                   </a>
                 </div>
               </div>
 
               {/* Footer Stats */}
-              <div className="mt-8 pt-8 border-t border-gray-200">
+              <div className="mt-8 pt-8 border-t-4 border-memphis-black">
                 <div className="text-center space-y-2">
-                  <p className="text-sm text-duo-text-muted">
-                    총 <span className="font-semibold text-duo-primary">{totalServices}개</span>의 AI 서비스 ·
-                    <span className="font-semibold text-duo-primary"> {categories.length}개</span> 카테고리
+                  <p className="text-sm font-bold text-memphis-black">
+                    총 <span className="px-2 py-0.5 bg-memphis-yellow border border-memphis-black">{totalServices}개</span>의 AI 서비스 ·
+                    <span className="px-2 py-0.5 bg-memphis-teal border border-memphis-black ml-1">{categories.length}개</span> 카테고리
                   </p>
-                  <p className="text-xs text-duo-text-light">
+                  <p className="text-xs text-memphis-gray font-medium">
                     지속적으로 업데이트되고 있습니다
                   </p>
                 </div>

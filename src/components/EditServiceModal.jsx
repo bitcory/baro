@@ -78,19 +78,24 @@ export function EditServiceModal({ service, isOpen, onClose, onSave }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      <div className="absolute inset-0 bg-black/30 backdrop-blur-sm" onClick={onClose} />
+      <div className="absolute inset-0 bg-memphis-black/30" onClick={onClose} />
 
       <div className={cn(
         "relative w-full max-w-md",
-        "bg-white rounded-3xl shadow-soft-xl",
+        "bg-memphis-cream border-4 border-memphis-black shadow-memphis-xl",
         "animate-scale-in"
       )}>
+        {/* Decorative shapes */}
+        <div className="absolute -top-3 -left-3 w-6 h-6 bg-memphis-pink border-2 border-memphis-black rotate-12"></div>
+        <div className="absolute -top-2 -right-4 w-8 h-8 bg-memphis-yellow border-2 border-memphis-black rounded-full"></div>
+        <div className="absolute -bottom-2 -right-2 w-5 h-5 bg-memphis-teal border-2 border-memphis-black"></div>
+
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-100">
-          <h2 className="text-xl font-bold text-duo-text">서비스 편집</h2>
+        <div className="flex items-center justify-between p-6 border-b-4 border-memphis-black">
+          <h2 className="text-xl font-bold text-memphis-black uppercase">서비스 편집</h2>
           <button
             onClick={onClose}
-            className="p-2 rounded-xl text-duo-text-muted hover:bg-duo-muted transition-colors"
+            className="p-2 border-2 border-memphis-black bg-white text-memphis-black hover:bg-memphis-pink"
           >
             <X className="w-5 h-5" />
           </button>
@@ -99,46 +104,46 @@ export function EditServiceModal({ service, isOpen, onClose, onSave }) {
         {/* Form */}
         <form onSubmit={handleSubmit} className="p-6 space-y-5">
           <div>
-            <label className="block text-sm font-medium text-duo-text mb-2">
+            <label className="block text-sm font-bold text-memphis-black uppercase mb-2">
               서비스 이름
             </label>
             <input
               type="text"
               value={formData.name}
               onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
-              className="friendly-input"
+              className="memphis-input"
               placeholder="예: ChatGPT"
               required
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-duo-text mb-2">
+            <label className="block text-sm font-bold text-memphis-black uppercase mb-2">
               URL
             </label>
             <input
               type="url"
               value={formData.url}
               onChange={handleUrlChange}
-              className="friendly-input"
+              className="memphis-input"
               placeholder="https://example.com"
               required
             />
             {formData.url && (
-              <p className="mt-2 text-xs text-duo-text-muted">
+              <p className="mt-2 text-xs text-memphis-gray font-medium">
                 파비콘이 자동으로 감지됩니다
               </p>
             )}
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-duo-text mb-2">
+            <label className="block text-sm font-bold text-memphis-black uppercase mb-2">
               아이콘
             </label>
             <div className="flex items-center gap-3">
-              <div className="w-14 h-14 bg-duo-muted rounded-xl flex items-center justify-center">
+              <div className="w-14 h-14 bg-memphis-yellow border-2 border-memphis-black flex items-center justify-center">
                 {isLoadingFavicon ? (
-                  <Loader2 className="w-6 h-6 text-duo-primary animate-spin" />
+                  <Loader2 className="w-6 h-6 text-memphis-black animate-spin" />
                 ) : formData.icon ? (
                   formData.icon.startsWith('http') ? (
                     <img
@@ -151,19 +156,19 @@ export function EditServiceModal({ service, isOpen, onClose, onSave }) {
                     <span className="text-2xl">{formData.icon}</span>
                   )
                 ) : (
-                  <Globe className="w-6 h-6 text-duo-text-light" />
+                  <Globe className="w-6 h-6 text-memphis-black" />
                 )}
               </div>
               <input
                 type="text"
                 value={formData.icon}
                 onChange={(e) => setFormData(prev => ({ ...prev, icon: e.target.value }))}
-                className="friendly-input flex-1"
+                className="memphis-input flex-1"
                 placeholder="비워두면 자동 감지"
               />
             </div>
             {faviconError && (
-              <p className="mt-2 text-xs text-orange-500">
+              <p className="mt-2 text-xs text-memphis-orange font-bold">
                 파비콘을 불러올 수 없습니다
               </p>
             )}
@@ -173,13 +178,13 @@ export function EditServiceModal({ service, isOpen, onClose, onSave }) {
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 px-4 py-3 rounded-xl font-medium text-duo-text bg-duo-muted hover:bg-gray-200 transition-colors"
+              className="flex-1 px-4 py-3 font-bold uppercase text-memphis-black bg-white border-2 border-memphis-black shadow-memphis-sm hover:bg-memphis-cream"
             >
               취소
             </button>
             <button
               type="submit"
-              className="flex-1 px-4 py-3 rounded-xl font-medium text-white bg-duo-primary hover:bg-duo-primary-dark shadow-soft transition-all flex items-center justify-center gap-2"
+              className="flex-1 px-4 py-3 font-bold uppercase text-memphis-black bg-memphis-teal border-2 border-memphis-black shadow-memphis hover:shadow-memphis-lg hover:-translate-x-0.5 hover:-translate-y-0.5 flex items-center justify-center gap-2"
             >
               <Save className="w-4 h-4" />
               저장
