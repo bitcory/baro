@@ -9,17 +9,7 @@ import { IntroPage } from './components/IntroPage';
 import { cn } from './utils/cn';
 import './App.css';
 
-// Helper function to get favicon URL
-const getFaviconUrl = (url) => {
-  try {
-    const domain = new URL(url).hostname;
-    return `https://www.google.com/s2/favicons?domain=${domain}&sz=64`;
-  } catch {
-    return '🌐';
-  }
-};
-
-// Default AI services data with automatic favicon URLs
+// Default AI services data
 const defaultData = {
   categories: [
     {
@@ -142,14 +132,11 @@ const defaultData = {
 
 function App() {
   const [showIntro, setShowIntro] = useState(() => {
-    // 세션 중에는 인트로를 다시 보여주지 않음
     const hasSeenIntro = sessionStorage.getItem('hasSeenIntro');
     return !hasSeenIntro;
   });
-  const [theme, setTheme] = useState('dark');
   const [categories, setCategories] = useState([]);
   const [activeTab, setActiveTab] = useState(() => {
-    // Load active tab from sessionStorage
     const savedTab = sessionStorage.getItem('activeTab');
     return savedTab ? parseInt(savedTab, 10) : 0;
   });
@@ -162,39 +149,22 @@ function App() {
   const [draggedOverService, setDraggedOverService] = useState(null);
 
   useEffect(() => {
-    // Load theme from localStorage
-    const savedTheme = localStorage.getItem('theme') || 'dark';
-    setTheme(savedTheme);
-    if (savedTheme === 'light') {
-      document.documentElement.classList.add('light');
-      document.documentElement.classList.remove('dark');
-    } else {
-      document.documentElement.classList.add('dark');
-      document.documentElement.classList.remove('light');
-    }
-
-    // Load data from localStorage or use default
     const savedData = localStorage.getItem('aiToolsData');
     if (savedData) {
       const parsed = JSON.parse(savedData);
-
-      // AI툴비 카테고리가 없으면 첫 번째로 추가
       let updatedCategories = parsed.categories;
       const hasAIToolbCategory = updatedCategories.some(cat => cat.name === 'AI툴비');
 
       if (!hasAIToolbCategory) {
-        // AI툴비 카테고리를 첫 번째로 추가
         const aiToolbCategory = defaultData.categories.find(cat => cat.name === 'AI툴비');
         if (aiToolbCategory) {
           updatedCategories = [aiToolbCategory, ...updatedCategories];
         }
       }
 
-      // 저장된 데이터에서 아이콘 정보만 제거하고 나머지는 유지
       const categoriesWithoutIcons = updatedCategories.map(category => ({
         ...category,
         services: category.services.map(service => {
-          // icon 속성만 제거하여 ServiceCard에서 자동으로 파비콘을 가져오도록 함
           const { icon, ...serviceWithoutIcon } = service;
           return serviceWithoutIcon;
         })
@@ -202,17 +172,14 @@ function App() {
 
       setCategories(categoriesWithoutIcons);
 
-      // AI툴비 카테고리가 추가되었으면 localStorage 업데이트
       if (!hasAIToolbCategory) {
         localStorage.setItem('aiToolsData', JSON.stringify({ categories: categoriesWithoutIcons }));
       }
     } else {
-      // 처음 방문한 사용자에게만 기본 데이터 제공
       setCategories(defaultData.categories);
       localStorage.setItem('aiToolsData', JSON.stringify(defaultData));
     }
 
-    // Restore scroll position
     const savedScrollPosition = sessionStorage.getItem('scrollPosition');
     if (savedScrollPosition) {
       setTimeout(() => {
@@ -221,7 +188,6 @@ function App() {
     }
   }, []);
 
-  // Save scroll position before page unload
   useEffect(() => {
     const handleBeforeUnload = () => {
       sessionStorage.setItem('scrollPosition', window.scrollY.toString());
@@ -233,24 +199,9 @@ function App() {
     };
   }, []);
 
-  // Save active tab whenever it changes
   useEffect(() => {
     sessionStorage.setItem('activeTab', activeTab.toString());
   }, [activeTab]);
-
-  const toggleTheme = () => {
-    const newTheme = theme === 'light' ? 'dark' : 'light';
-    console.log('Theme toggling:', theme, '->', newTheme);
-    setTheme(newTheme);
-    if (newTheme === 'light') {
-      document.documentElement.classList.add('light');
-      document.documentElement.classList.remove('dark');
-    } else {
-      document.documentElement.classList.add('dark');
-      document.documentElement.classList.remove('light');
-    }
-    localStorage.setItem('theme', newTheme);
-  };
 
   const handleServiceClick = (service) => {
     if (!editMode) {
@@ -268,10 +219,7 @@ function App() {
     if (editingCategoryId) {
       const newCategories = categories.map(cat => {
         if (cat.id === editingCategoryId) {
-          return {
-            ...cat,
-            services: [...cat.services, newService]
-          };
+          return { ...cat, services: [...cat.services, newService] };
         }
         return cat;
       });
@@ -287,10 +235,7 @@ function App() {
     if (confirm('이 서비스를 삭제하시겠습니까?')) {
       const newCategories = categories.map(cat => {
         if (cat.id === categoryId) {
-          return {
-            ...cat,
-            services: cat.services.filter(s => s.id !== serviceId)
-          };
+          return { ...cat, services: cat.services.filter(s => s.id !== serviceId) };
         }
         return cat;
       });
@@ -312,12 +257,7 @@ function App() {
         if (cat.id === editingCategoryId) {
           return {
             ...cat,
-            services: cat.services.map(s => {
-              if (s.id === updatedService.id) {
-                return updatedService;
-              }
-              return s;
-            })
+            services: cat.services.map(s => s.id === updatedService.id ? updatedService : s)
           };
         }
         return cat;
@@ -332,11 +272,7 @@ function App() {
   const addCategory = () => {
     const name = prompt('카테고리 이름을 입력하세요:');
     if (name) {
-      const newCategory = {
-        id: Date.now(),
-        name,
-        services: []
-      };
+      const newCategory = { id: Date.now(), name, services: [] };
       const newCategories = [...categories, newCategory];
       setCategories(newCategories);
       localStorage.setItem('aiToolsData', JSON.stringify({ categories: newCategories }));
@@ -357,14 +293,10 @@ function App() {
   const editCategory = (categoryId) => {
     const category = categories.find(c => c.id === categoryId);
     const newName = prompt('카테고리 이름을 수정하세요:', category.name);
-
     if (newName) {
-      const newCategories = categories.map(cat => {
-        if (cat.id === categoryId) {
-          return { ...cat, name: newName };
-        }
-        return cat;
-      });
+      const newCategories = categories.map(cat =>
+        cat.id === categoryId ? { ...cat, name: newName } : cat
+      );
       setCategories(newCategories);
       localStorage.setItem('aiToolsData', JSON.stringify({ categories: newCategories }));
     }
@@ -375,14 +307,12 @@ function App() {
     localStorage.setItem('aiToolsData', JSON.stringify({ categories: newCategories }));
   };
 
-  // Backup function - download current data as JSON
   const handleBackup = () => {
     const dataToBackup = {
       categories: categories,
       timestamp: new Date().toISOString(),
       version: '1.0'
     };
-
     const blob = new Blob([JSON.stringify(dataToBackup, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -394,16 +324,12 @@ function App() {
     URL.revokeObjectURL(url);
   };
 
-  // Restore function - upload JSON and restore data
   const handleRestore = (file) => {
     const reader = new FileReader();
     reader.onload = (e) => {
       try {
         const data = JSON.parse(e.target.result);
-
-        // Validate the data structure
         if (data.categories && Array.isArray(data.categories)) {
-          // Remove icon properties from restored data
           const categoriesWithoutIcons = data.categories.map(category => ({
             ...category,
             services: category.services.map(service => {
@@ -412,51 +338,44 @@ function App() {
             })
           }));
 
-          if (confirm('이 작업은 현재 모든 데이터를 백업 파일의 데이터로 교체합니다. 계속하시겠습니까?')) {
+          if (confirm('현재 데이터를 백업 파일로 교체합니다. 계속하시겠습니까?')) {
             setCategories(categoriesWithoutIcons);
             localStorage.setItem('aiToolsData', JSON.stringify({ categories: categoriesWithoutIcons }));
-            setActiveTab(0); // Reset to first tab
-            alert('백업이 성공적으로 복원되었습니다!');
+            setActiveTab(0);
+            alert('복원되었습니다!');
           }
         } else {
-          alert('올바른 백업 파일 형식이 아닙니다.');
+          alert('올바른 백업 파일이 아닙니다.');
         }
       } catch (error) {
-        console.error('Error restoring backup:', error);
-        alert('백업 파일을 읽는 중 오류가 발생했습니다. 올바른 JSON 파일인지 확인해주세요.');
+        alert('파일을 읽는 중 오류가 발생했습니다.');
       }
     };
     reader.readAsText(file);
   };
 
-  // Handle drag start
   const handleDragStart = (e, service, categoryId) => {
     setDraggedService({ service, categoryId });
     e.dataTransfer.effectAllowed = 'move';
   };
 
-  // Handle drag over
   const handleDragOver = (e) => {
     e.preventDefault();
     e.dataTransfer.dropEffect = 'move';
   };
 
-  // Handle drag enter
   const handleDragEnter = (e, service, categoryId) => {
     e.preventDefault();
     setDraggedOverService({ service, categoryId });
   };
 
-  // Handle drop
   const handleDrop = (e, targetService, targetCategoryId) => {
     e.preventDefault();
-
     if (!draggedService || !targetService) return;
 
     const sourceCategoryId = draggedService.categoryId;
     const sourceService = draggedService.service;
 
-    // If dropping on the same service, do nothing
     if (sourceService.id === targetService.id && sourceCategoryId === targetCategoryId) {
       setDraggedService(null);
       setDraggedOverService(null);
@@ -464,62 +383,48 @@ function App() {
     }
 
     const newCategories = [...categories];
-
-    // Find source and target categories
     const sourceCategory = newCategories.find(cat => cat.id === sourceCategoryId);
     const targetCategory = newCategories.find(cat => cat.id === targetCategoryId);
 
     if (!sourceCategory || !targetCategory) return;
 
-    // Remove service from source category
     const sourceIndex = sourceCategory.services.findIndex(s => s.id === sourceService.id);
     if (sourceIndex === -1) return;
 
     sourceCategory.services.splice(sourceIndex, 1);
-
-    // Add service to target category at the correct position
     const targetIndex = targetCategory.services.findIndex(s => s.id === targetService.id);
 
     if (sourceCategoryId === targetCategoryId) {
-      // Reordering within the same category
       const adjustedTargetIndex = sourceIndex < targetIndex ? targetIndex - 1 : targetIndex;
       targetCategory.services.splice(adjustedTargetIndex + 1, 0, sourceService);
     } else {
-      // Moving to a different category
       targetCategory.services.splice(targetIndex + 1, 0, sourceService);
     }
 
     setCategories(newCategories);
     localStorage.setItem('aiToolsData', JSON.stringify({ categories: newCategories }));
-
     setDraggedService(null);
     setDraggedOverService(null);
   };
 
-  // Handle drag end
   const handleDragEnd = () => {
     setDraggedService(null);
     setDraggedOverService(null);
   };
 
-  // Handle search
   const handleSearch = (term) => {
     setSearchTerm(term);
-    // If searching, switch to 'All' view by creating a virtual category
     if (term) {
-      setActiveTab(-1); // Special index for search results
+      setActiveTab(-1);
     } else {
-      setActiveTab(0); // Reset to first category
+      setActiveTab(0);
     }
   };
 
-  // Filter services based on search term
   const getFilteredServices = () => {
     if (!searchTerm) {
       return currentCategory ? currentCategory.services : [];
     }
-
-    // Search across all categories
     const allServices = [];
     categories.forEach(category => {
       const filteredServices = category.services.filter(service =>
@@ -538,7 +443,6 @@ function App() {
   const currentCategory = activeTab >= 0 ? categories[activeTab] : null;
   const displayServices = searchTerm ? getFilteredServices() : (currentCategory ? currentCategory.services : []);
 
-  // 인트로 페이지에서 메인으로 전환
   const handleEnterFromIntro = () => {
     sessionStorage.setItem('hasSeenIntro', 'true');
     setShowIntro(false);
@@ -546,15 +450,11 @@ function App() {
 
   return (
     <>
-      {/* Intro Page */}
       {showIntro && <IntroPage onEnter={handleEnterFromIntro} />}
 
       <div className={cn("min-h-screen", showIntro && "overflow-hidden")}>
-        {/* Navbar */}
         <Navbar
           logo="BAROGA"
-          theme={theme}
-          onThemeToggle={toggleTheme}
           editMode={editMode}
           onEditToggle={() => setEditMode(!editMode)}
           onLogoClick={() => {
@@ -566,14 +466,12 @@ function App() {
           onRestore={handleRestore}
         />
 
-        {/* Hero Section */}
         <Hero
           totalServices={totalServices}
           totalCategories={categories.length}
           onSearch={handleSearch}
         />
 
-        {/* Category Tabs */}
         {!searchTerm && (
           <TabBar
             categories={categories}
@@ -587,22 +485,22 @@ function App() {
           />
         )}
 
-        {/* Main Content */}
         <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {(currentCategory || searchTerm) && (
             <div className="space-y-8">
-              {/* Search Results Info */}
               {searchTerm && (
-                <div className="mb-4">
-                  <div className="inline-block px-4 py-2 bg-neo-blue border-3 border-neo-yellow shadow-neo-sm">
-                    <p className="text-sm font-bold text-black">
-                      '{searchTerm}' 검색 결과: <span className="font-black">{displayServices.length}개</span> 서비스
-                    </p>
+                <div className="mb-6">
+                  <div className="inline-flex items-center gap-2 px-4 py-2 bg-duo-primary/10 rounded-full">
+                    <span className="text-sm font-medium text-duo-primary">
+                      '{searchTerm}' 검색 결과
+                    </span>
+                    <span className="px-2 py-0.5 bg-duo-primary text-white text-xs font-semibold rounded-full">
+                      {displayServices.length}
+                    </span>
                   </div>
                 </div>
               )}
 
-              {/* Services Grid */}
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-4">
                 {displayServices.map((service) => (
                   <div
@@ -629,23 +527,22 @@ function App() {
                   </div>
                 ))}
 
-                {/* Add Service Card - only show when not searching */}
                 {!searchTerm && currentCategory && (
                   <div
                     onClick={() => addService(currentCategory.id)}
                     className={cn(
                       "group relative overflow-hidden cursor-pointer",
-                      "bg-neo-card border-3 border-dashed border-neo-yellow",
-                      "hover:border-solid hover:bg-neo-green hover:shadow-neo-sm",
-                      "hover:translate-x-[-2px] hover:translate-y-[-2px]"
+                      "bg-white/50 border-2 border-dashed border-duo-primary/30 rounded-2xl",
+                      "hover:border-duo-primary hover:bg-duo-primary/5",
+                      "transition-all duration-200"
                     )}
                   >
                     <div className="p-6 flex flex-col items-center justify-center space-y-3 h-full min-h-[140px]">
-                      <div className="w-10 h-10 bg-neo-surface border-2 border-neo-yellow flex items-center justify-center group-hover:bg-neo-card">
-                        <Plus size={20} className="text-neo-yellow group-hover:text-black" />
+                      <div className="w-12 h-12 bg-duo-primary/10 rounded-xl flex items-center justify-center group-hover:bg-duo-primary/20 transition-colors">
+                        <Plus size={24} className="text-duo-primary" />
                       </div>
-                      <span className="text-xs font-bold text-white group-hover:text-black">
-                        서비스 추가
+                      <span className="text-sm font-medium text-duo-text-muted group-hover:text-duo-primary transition-colors">
+                        추가하기
                       </span>
                     </div>
                   </div>
@@ -653,129 +550,79 @@ function App() {
               </div>
 
               {/* Utility Tools Section */}
-              <div className="mt-12 py-8 border-t-3 border-neo-yellow/30">
+              <div className="mt-16 pt-8 border-t border-gray-200">
                 <div className="text-center space-y-6">
-                  <h3 className="inline-block text-lg font-black text-black px-4 py-2 bg-neo-purple border-3 border-neo-yellow shadow-neo-sm">
+                  <h3 className="inline-flex items-center gap-2 text-lg font-bold text-duo-text">
+                    <span className="w-8 h-0.5 bg-duo-primary rounded-full"></span>
                     유용한 유틸
+                    <span className="w-8 h-0.5 bg-duo-primary rounded-full"></span>
                   </h3>
-                  <div className="flex justify-center gap-4 flex-wrap">
-                    {/* Snipaste Button */}
+                  <div className="flex justify-center gap-3 flex-wrap">
                     <a
                       href="https://www.snipaste.com/"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={cn(
-                        "inline-flex items-center gap-2 px-6 py-3",
-                        "bg-neo-blue border-3 border-neo-yellow shadow-neo-sm font-bold text-black",
-                        "hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-neo",
-                        "active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
-                      )}
+                      className="inline-flex items-center gap-2 px-5 py-2.5 bg-white rounded-xl shadow-soft hover:shadow-soft-md transition-all hover:-translate-y-0.5"
                     >
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                      </svg>
-                      <span>Snipaste</span>
-                      <span className="text-xs px-2 py-0.5 bg-neo-card border-2 border-neo-yellow text-white">캡쳐</span>
+                      <span className="font-medium text-duo-text">Snipaste</span>
+                      <span className="text-xs px-2 py-0.5 bg-duo-primary/10 text-duo-primary rounded-full">캡쳐</span>
                     </a>
-
-                    {/* Everything Button */}
                     <a
                       href="https://www.voidtools.com/ko-kr/"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={cn(
-                        "inline-flex items-center gap-2 px-6 py-3",
-                        "bg-neo-green border-3 border-neo-yellow shadow-neo-sm font-bold text-black",
-                        "hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-neo",
-                        "active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
-                      )}
+                      className="inline-flex items-center gap-2 px-5 py-2.5 bg-white rounded-xl shadow-soft hover:shadow-soft-md transition-all hover:-translate-y-0.5"
                     >
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                      </svg>
-                      <span>Everything</span>
-                      <span className="text-xs px-2 py-0.5 bg-neo-card border-2 border-neo-yellow text-white">검색</span>
+                      <span className="font-medium text-duo-text">Everything</span>
+                      <span className="text-xs px-2 py-0.5 bg-duo-primary/10 text-duo-primary rounded-full">검색</span>
                     </a>
-
-                    {/* PhotoScape X Button */}
                     <a
                       href="http://x.photoscape.org/"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={cn(
-                        "inline-flex items-center gap-2 px-6 py-3",
-                        "bg-neo-pink border-3 border-neo-yellow shadow-neo-sm font-bold text-black",
-                        "hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-neo",
-                        "active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
-                      )}
+                      className="inline-flex items-center gap-2 px-5 py-2.5 bg-white rounded-xl shadow-soft hover:shadow-soft-md transition-all hover:-translate-y-0.5"
                     >
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                      </svg>
-                      <span>PhotoScape X</span>
-                      <span className="text-xs px-2 py-0.5 bg-neo-card border-2 border-neo-yellow text-white">편집</span>
+                      <span className="font-medium text-duo-text">PhotoScape X</span>
+                      <span className="text-xs px-2 py-0.5 bg-duo-primary/10 text-duo-primary rounded-full">편집</span>
                     </a>
-
-                    {/* CapCut Download Button */}
                     <a
                       href="https://aitoolb.com/61"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={cn(
-                        "inline-flex items-center gap-2 px-6 py-3",
-                        "bg-neo-orange border-3 border-neo-yellow shadow-neo-sm font-bold text-black",
-                        "hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-neo",
-                        "active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
-                      )}
+                      className="inline-flex items-center gap-2 px-5 py-2.5 bg-white rounded-xl shadow-soft hover:shadow-soft-md transition-all hover:-translate-y-0.5"
                     >
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                      </svg>
-                      <span>무료캡컷다운로드</span>
-                      <span className="text-xs px-2 py-0.5 bg-neo-card border-2 border-neo-yellow text-white">영상</span>
+                      <span className="font-medium text-duo-text">무료캡컷</span>
+                      <span className="text-xs px-2 py-0.5 bg-duo-primary/10 text-duo-primary rounded-full">영상</span>
                     </a>
                   </div>
                 </div>
               </div>
 
               {/* YouTube Section */}
-              <div className="mt-8 py-8 border-t-3 border-neo-yellow/30">
-                <div className="text-center space-y-6">
-                  <h3 className="inline-block text-lg font-black text-black px-4 py-2 bg-neo-red border-3 border-neo-yellow shadow-neo-sm">
-                    YouTube
-                  </h3>
-                  <div className="flex justify-center gap-4 flex-wrap">
-                    <a
-                      href="https://www.youtube.com/results?search_query=ai%ED%88%B4%EB%B9%84"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={cn(
-                        "inline-flex items-center gap-2 px-6 py-3",
-                        "bg-neo-red border-3 border-neo-yellow shadow-neo-sm font-bold text-black",
-                        "hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-neo",
-                        "active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
-                      )}
-                    >
-                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-                      </svg>
-                      <span>AI툴비 유튜브</span>
-                      <span className="text-xs px-2 py-0.5 bg-neo-card border-2 border-neo-yellow text-white">채널</span>
-                    </a>
-                  </div>
+              <div className="mt-8 pt-8 border-t border-gray-200">
+                <div className="text-center space-y-4">
+                  <a
+                    href="https://www.youtube.com/results?search_query=ai%ED%88%B4%EB%B9%84"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-duo-primary to-duo-accent text-white rounded-2xl shadow-soft-lg hover:shadow-glow transition-all hover:-translate-y-0.5"
+                  >
+                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                    </svg>
+                    <span className="font-semibold">AI툴비 유튜브</span>
+                  </a>
                 </div>
               </div>
 
               {/* Footer Stats */}
-              <div className="mt-8 py-8 border-t-3 border-neo-yellow/30">
-                <div className="text-center space-y-3">
-                  <div className="inline-block px-6 py-3 bg-neo-yellow border-3 border-neo-yellow shadow-neo-sm">
-                    <p className="text-sm font-bold text-black">
-                      총 <span className="font-black">{totalServices}개</span>의 AI 서비스 •
-                      <span className="font-black"> {categories.length}개</span> 카테고리
-                    </p>
-                  </div>
-                  <p className="text-xs font-medium text-gray-400">
+              <div className="mt-8 pt-8 border-t border-gray-200">
+                <div className="text-center space-y-2">
+                  <p className="text-sm text-duo-text-muted">
+                    총 <span className="font-semibold text-duo-primary">{totalServices}개</span>의 AI 서비스 ·
+                    <span className="font-semibold text-duo-primary"> {categories.length}개</span> 카테고리
+                  </p>
+                  <p className="text-xs text-duo-text-light">
                     지속적으로 업데이트되고 있습니다
                   </p>
                 </div>
@@ -784,7 +631,6 @@ function App() {
           )}
         </main>
 
-        {/* Edit Service Modal */}
         <EditServiceModal
           service={editingService}
           isOpen={!!editingService}

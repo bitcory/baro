@@ -25,13 +25,13 @@ export const Hero = ({
   };
 
   return (
-    <section className={cn('relative py-6', className)}>
+    <section className={cn('relative py-8', className)}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Search Bar */}
         <div className="max-w-xl mx-auto">
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-              <Search className="h-5 w-5 text-neo-yellow" />
+              <Search className="h-5 w-5 text-duo-text-light" />
             </div>
             <input
               type="text"
@@ -39,11 +39,11 @@ export const Hero = ({
               onChange={(e) => handleSearch(e.target.value)}
               placeholder="AI 도구 검색..."
               className={cn(
-                "w-full pl-12 pr-12 py-3",
-                "bg-neo-card border-3 border-neo-yellow shadow-neo-sm",
-                "text-white placeholder-gray-400 font-medium",
-                "focus:outline-none focus:shadow-neo",
-                "focus:translate-x-[-2px] focus:translate-y-[-2px]"
+                "w-full pl-12 pr-12 py-3.5 rounded-2xl",
+                "bg-white border border-gray-200 shadow-soft",
+                "text-duo-text placeholder-duo-text-light",
+                "focus:outline-none focus:border-duo-primary focus:ring-2 focus:ring-duo-primary/20",
+                "transition-all duration-200"
               )}
             />
             {searchTerm && (
@@ -51,7 +51,7 @@ export const Hero = ({
                 onClick={clearSearch}
                 className="absolute inset-y-0 right-0 pr-4 flex items-center"
               >
-                <X className="h-5 w-5 text-neo-yellow hover:text-neo-red" />
+                <X className="h-5 w-5 text-duo-text-light hover:text-duo-primary transition-colors" />
               </button>
             )}
           </div>

@@ -24,20 +24,12 @@ export const TabBar = ({
     setDraggedIndex(index);
     setIsDragging(true);
     e.dataTransfer.effectAllowed = 'move';
-
-    const dragImage = e.currentTarget.cloneNode(true);
-    dragImage.style.position = 'absolute';
-    dragImage.style.top = '-1000px';
-    document.body.appendChild(dragImage);
-    e.dataTransfer.setDragImage(dragImage, e.currentTarget.offsetWidth / 2, e.currentTarget.offsetHeight / 2);
-    setTimeout(() => document.body.removeChild(dragImage), 0);
   };
 
   const handleDragOver = (e, index) => {
     e.preventDefault();
     e.stopPropagation();
     if (draggedItem.current === null) return;
-
     setDragOverIndex(index);
     e.dataTransfer.dropEffect = 'move';
   };
@@ -61,7 +53,6 @@ export const TabBar = ({
 
     const newCategories = [...categories];
     const draggedCategory = newCategories[dragIndex];
-
     newCategories.splice(dragIndex, 1);
     newCategories.splice(dropIndex, 0, draggedCategory);
 
@@ -83,7 +74,7 @@ export const TabBar = ({
   return (
     <div className={cn(
       'sticky top-16 z-40 w-full',
-      'bg-neo-bg border-b-3 border-neo-yellow/30',
+      'bg-white/80 backdrop-blur-lg border-b border-gray-100',
       className
     )}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -93,21 +84,13 @@ export const TabBar = ({
             "flex items-center gap-2 py-3",
             editMode ? "flex-wrap" : "overflow-x-auto scrollbar-hide"
           )}
-          style={{
-            scrollBehavior: isDragging ? 'auto' : 'smooth',
-            overflowX: editMode ? 'visible' : 'auto'
-          }}
         >
-          {/* Category Tabs */}
           {categories.map((category, index) => (
             <div
               key={category.id}
               onDragOver={(e) => handleDragOver(e, index)}
               onDrop={(e) => handleDrop(e, index)}
-              className={cn(
-                "relative",
-                dragOverIndex === index && draggedIndex !== index && "translate-x-2"
-              )}
+              className="relative"
             >
               <button
                 onClick={() => !isDragging && onTabChange(index)}
@@ -115,57 +98,48 @@ export const TabBar = ({
                 onDragEnd={handleDragEnd}
                 draggable={editMode}
                 className={cn(
-                  "relative group whitespace-nowrap px-4 py-2",
-                  "border-3 border-neo-yellow font-bold",
-                  "flex items-center select-none",
+                  "group relative whitespace-nowrap px-4 py-2 rounded-xl font-medium",
+                  "flex items-center gap-2 select-none transition-all duration-200",
                   activeTab === index
-                    ? "bg-neo-pink text-black shadow-neo-sm translate-x-[-2px] translate-y-[-2px]"
-                    : "bg-neo-card text-white hover:bg-neo-yellow hover:text-black hover:shadow-neo-sm hover:translate-x-[-2px] hover:translate-y-[-2px]",
+                    ? "bg-duo-primary text-white shadow-soft"
+                    : "text-duo-text-muted hover:text-duo-text hover:bg-duo-muted",
                   draggedIndex === index && "opacity-30",
-                  dragOverIndex === index && draggedIndex !== index && "bg-neo-green",
+                  dragOverIndex === index && draggedIndex !== index && "bg-duo-primary/20",
                   editMode && "cursor-move"
                 )}
               >
-                {/* Drag Handle */}
                 {editMode && (
-                  <GripVertical
-                    size={14}
-                    className={cn("mr-1.5 flex-shrink-0", activeTab === index ? "text-black" : "text-neo-yellow")}
-                  />
+                  <GripVertical size={14} className="opacity-50" />
                 )}
-
-                <span className="flex items-center gap-2 pointer-events-none">
-                  {category.name}
-                  <span className={cn(
-                    "px-2 py-0.5 text-xs font-black border-2",
-                    activeTab === index
-                      ? "bg-neo-card border-neo-yellow text-white"
-                      : "bg-neo-surface border-neo-yellow text-white"
-                  )}>
-                    {category.services.length}
-                  </span>
+                <span>{category.name}</span>
+                <span className={cn(
+                  "px-2 py-0.5 text-xs font-semibold rounded-full",
+                  activeTab === index
+                    ? "bg-white/20 text-white"
+                    : "bg-duo-primary/10 text-duo-primary"
+                )}>
+                  {category.services.length}
                 </span>
 
-                {/* Edit Mode Actions */}
                 {editMode && !isDragging && (
-                  <div className="absolute -top-2 -right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity z-10">
+                  <div className="absolute -top-1 -right-1 flex gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
                         onEditCategory(category.id);
                       }}
-                      className="p-1 bg-neo-blue border-2 border-neo-yellow hover:shadow-neo-sm"
+                      className="p-1 bg-duo-primary text-white rounded-full shadow-soft hover:scale-110 transition-transform"
                     >
-                      <Edit2 size={10} className="text-black" />
+                      <Edit2 size={10} />
                     </button>
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
                         onDeleteCategory(category.id);
                       }}
-                      className="p-1 bg-neo-red border-2 border-neo-yellow hover:shadow-neo-sm"
+                      className="p-1 bg-red-500 text-white rounded-full shadow-soft hover:scale-110 transition-transform"
                     >
-                      <X size={10} className="text-black" />
+                      <X size={10} />
                     </button>
                   </div>
                 )}
@@ -173,22 +147,17 @@ export const TabBar = ({
             </div>
           ))}
 
-          {/* Add Category Button */}
           <button
             onClick={onAddCategory}
             className={cn(
-              "whitespace-nowrap px-4 py-2",
-              "bg-neo-card border-3 border-dashed border-neo-yellow",
-              "font-bold text-gray-400",
-              "hover:bg-neo-green hover:border-solid hover:text-black",
-              "hover:shadow-neo-sm hover:translate-x-[-2px] hover:translate-y-[-2px]",
-              "flex-shrink-0"
+              "whitespace-nowrap px-4 py-2 rounded-xl",
+              "text-duo-text-light hover:text-duo-primary",
+              "border-2 border-dashed border-gray-200 hover:border-duo-primary",
+              "flex items-center gap-2 transition-all duration-200"
             )}
           >
-            <span className="flex items-center gap-2">
-              <Plus size={16} />
-              카테고리 추가
-            </span>
+            <Plus size={16} />
+            추가
           </button>
         </div>
       </div>

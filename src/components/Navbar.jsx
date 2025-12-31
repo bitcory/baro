@@ -4,8 +4,6 @@ import { Menu, X, Edit2, Download, Upload } from 'lucide-react';
 
 export const Navbar = ({
   logo = 'BAROGA',
-  onThemeToggle,
-  theme = 'dark',
   editMode,
   onEditToggle,
   onLogoClick,
@@ -20,7 +18,7 @@ export const Navbar = ({
     <nav
       className={cn(
         'w-full sticky top-0 z-50',
-        'bg-neo-card border-b-3 border-neo-yellow',
+        'bg-white/80 backdrop-blur-lg border-b border-gray-100',
         className
       )}
     >
@@ -40,50 +38,34 @@ export const Navbar = ({
               }}
               className="flex-shrink-0 cursor-pointer group"
             >
-              <h1 className={cn(
-                "text-2xl font-black text-neo-yellow",
-                "hover:rotate-[-2deg]",
-                "transition-transform duration-100"
-              )}>
+              <h1 className="text-2xl font-bold bg-gradient-to-r from-duo-primary to-duo-accent bg-clip-text text-transparent">
                 {logo}
               </h1>
             </a>
           </div>
 
           {/* Desktop Actions */}
-          <div className="hidden md:flex items-center gap-3">
-            {/* Backup Button */}
+          <div className="hidden md:flex items-center gap-2">
             <button
               onClick={onBackup}
-              className={cn(
-                "p-2 bg-neo-blue border-3 border-neo-yellow shadow-neo-sm",
-                "hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-neo",
-                "active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
-              )}
-              aria-label="Download backup"
+              className="p-2.5 rounded-xl text-duo-text-muted hover:text-duo-primary hover:bg-duo-primary/10 transition-colors"
               title="백업 다운로드"
             >
-              <Download size={18} className="text-black" />
+              <Download size={18} />
             </button>
 
-            {/* Restore Button */}
             <button
               onClick={() => fileInputRef.current?.click()}
-              className={cn(
-                "p-2 bg-neo-green border-3 border-neo-yellow shadow-neo-sm",
-                "hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-neo",
-                "active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
-              )}
-              aria-label="Upload backup"
+              className="p-2.5 rounded-xl text-duo-text-muted hover:text-duo-primary hover:bg-duo-primary/10 transition-colors"
               title="백업 복원"
             >
-              <Upload size={18} className="text-black" />
+              <Upload size={18} />
             </button>
             <input
               ref={fileInputRef}
               type="file"
               accept=".json"
-              style={{ display: 'none' }}
+              className="hidden"
               onChange={(e) => {
                 const file = e.target.files?.[0];
                 if (file) {
@@ -93,18 +75,16 @@ export const Navbar = ({
               }}
             />
 
-            {/* Edit Mode Toggle */}
             <button
               onClick={onEditToggle}
               className={cn(
-                "px-4 py-2 font-bold border-3 border-neo-yellow shadow-neo-sm text-black",
-                "flex items-center gap-2",
-                "hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-neo",
-                "active:translate-x-[2px] active:translate-y-[2px] active:shadow-none",
-                editMode ? "bg-neo-pink" : "bg-neo-yellow"
+                "px-4 py-2 rounded-xl font-medium flex items-center gap-2 transition-all",
+                editMode
+                  ? "bg-duo-primary text-white shadow-soft"
+                  : "bg-duo-muted text-duo-text hover:bg-duo-primary/10"
               )}
             >
-              <Edit2 size={16} className={editMode ? "animate-spin" : ""} />
+              <Edit2 size={16} />
               {editMode ? '편집중' : '편집'}
             </button>
           </div>
@@ -113,16 +93,12 @@ export const Navbar = ({
           <div className="md:hidden">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className={cn(
-                "p-2 bg-neo-yellow border-3 border-neo-yellow shadow-neo-sm",
-                "hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-neo",
-                "active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
-              )}
+              className="p-2.5 rounded-xl text-duo-text-muted hover:bg-duo-muted transition-colors"
             >
               {mobileMenuOpen ? (
-                <X className="block h-5 w-5 text-black" />
+                <X className="h-5 w-5" />
               ) : (
-                <Menu className="block h-5 w-5 text-black" />
+                <Menu className="h-5 w-5" />
               )}
             </button>
           </div>
@@ -131,18 +107,18 @@ export const Navbar = ({
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-t-3 border-neo-yellow bg-neo-surface">
+        <div className="md:hidden border-t border-gray-100 bg-white">
           <div className="px-4 py-3 space-y-2">
             <button
               onClick={onBackup}
-              className="w-full flex items-center gap-3 px-4 py-3 bg-neo-blue border-3 border-neo-yellow font-bold text-black hover:shadow-neo-sm"
+              className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-duo-text hover:bg-duo-muted transition-colors"
             >
               <Download size={18} />
               백업 다운로드
             </button>
             <button
               onClick={() => fileInputRef.current?.click()}
-              className="w-full flex items-center gap-3 px-4 py-3 bg-neo-green border-3 border-neo-yellow font-bold text-black hover:shadow-neo-sm"
+              className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-duo-text hover:bg-duo-muted transition-colors"
             >
               <Upload size={18} />
               백업 복원
@@ -150,8 +126,10 @@ export const Navbar = ({
             <button
               onClick={onEditToggle}
               className={cn(
-                "w-full flex items-center gap-3 px-4 py-3 border-3 border-neo-yellow font-bold hover:shadow-neo-sm",
-                editMode ? "bg-neo-pink text-black" : "bg-neo-yellow text-black"
+                "w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-colors",
+                editMode
+                  ? "bg-duo-primary text-white"
+                  : "text-duo-text hover:bg-duo-muted"
               )}
             >
               <Edit2 size={18} />

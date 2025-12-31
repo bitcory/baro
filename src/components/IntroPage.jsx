@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import { cn } from '../utils/cn';
+import { ArrowRight, Sparkles } from 'lucide-react';
 
 export const IntroPage = ({ onEnter }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
 
   useEffect(() => {
-    // iframe 로딩 후 fade in
-    const timer = setTimeout(() => setIsLoaded(true), 500);
+    const timer = setTimeout(() => setIsLoaded(true), 300);
     return () => clearTimeout(timer);
   }, []);
 
@@ -22,89 +22,57 @@ export const IntroPage = ({ onEnter }) => {
     <div
       className={cn(
         "fixed inset-0 z-[100] flex items-center justify-center",
-        "bg-neo-bg",
-        "transition-opacity duration-400",
+        "bg-gradient-to-br from-duo-bg via-white to-duo-muted",
+        "transition-opacity duration-500",
         isExiting && "opacity-0 pointer-events-none"
       )}
     >
-      {/* Spline 3D Background - 워터마크 숨김을 위해 확대 */}
+      {/* Decorative Background */}
       <div className="absolute inset-0 overflow-hidden">
-        <iframe
-          src="https://my.spline.design/discover-k8M4gicgXa6f02TysWCbNqtP/"
-          frameBorder="0"
-          className={cn(
-            "absolute",
-            "w-[calc(100%+200px)] h-[calc(100%+200px)]",
-            "-top-[50px] -left-[100px]",
-            "transition-opacity duration-1000",
-            isLoaded ? "opacity-100" : "opacity-0"
-          )}
-          style={{
-            pointerEvents: 'auto'
-          }}
-        />
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-duo-primary/10 rounded-full blur-3xl animate-float" />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-duo-accent/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '1s' }} />
       </div>
-
-      {/* Overlay - Darker for dark theme */}
-      <div className="absolute inset-0 bg-black/50 pointer-events-none" />
 
       {/* Content */}
       <div className={cn(
         "relative z-10 text-center px-6",
-        "transition-all duration-500 delay-300",
+        "transition-all duration-700",
         isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
       )}>
-        {/* Logo Box */}
-        <div className={cn(
-          "inline-block px-8 py-4 mb-6",
-          "bg-neo-yellow border-4 border-neo-yellow shadow-neo-lg"
-        )}>
-          <h1 className="text-5xl sm:text-7xl font-black text-black">
+        {/* Logo */}
+        <div className="mb-6">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-duo-primary/10 rounded-full mb-4">
+            <Sparkles className="w-4 h-4 text-duo-primary" />
+            <span className="text-sm font-medium text-duo-primary">AI Tools Directory</span>
+          </div>
+          <h1 className="text-6xl sm:text-8xl font-bold bg-gradient-to-r from-duo-primary to-duo-accent bg-clip-text text-transparent">
             BAROGA
           </h1>
         </div>
 
-        <p className={cn(
-          "inline-block px-4 py-2 mb-8",
-          "bg-neo-card border-3 border-neo-yellow shadow-neo-sm",
-          "text-lg sm:text-xl font-bold text-white"
-        )}>
-          AI Tools Directory
+        <p className="text-lg text-duo-text-muted mb-10 max-w-md mx-auto">
+          AI 도구들을 한눈에 모아보고 빠르게 접근하세요
         </p>
 
         {/* Enter Button */}
-        <div>
-          <button
-            onClick={handleEnter}
-            className={cn(
-              "px-8 py-4",
-              "bg-neo-green border-4 border-neo-yellow shadow-neo",
-              "text-black font-black text-xl",
-              "hover:translate-x-[-4px] hover:translate-y-[-4px] hover:shadow-neo-lg",
-              "active:translate-x-[4px] active:translate-y-[4px] active:shadow-none",
-              "flex items-center gap-3 mx-auto"
-            )}
-          >
-            <span>Enter</span>
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="3"
-              viewBox="0 0 24 24"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-            </svg>
-          </button>
-        </div>
+        <button
+          onClick={handleEnter}
+          className={cn(
+            "px-8 py-4 rounded-2xl",
+            "bg-gradient-to-r from-duo-primary to-duo-accent",
+            "text-white font-semibold text-lg",
+            "shadow-soft-lg hover:shadow-glow",
+            "hover:-translate-y-1 active:translate-y-0",
+            "transition-all duration-200",
+            "flex items-center gap-3 mx-auto"
+          )}
+        >
+          <span>시작하기</span>
+          <ArrowRight className="w-5 h-5" />
+        </button>
 
-        {/* Skip hint */}
-        <p className={cn(
-          "mt-6 px-3 py-1",
-          "bg-neo-yellow text-black text-sm font-bold",
-          "inline-block border-2 border-neo-yellow"
-        )}>
-          Click anywhere to enter
+        <p className="mt-8 text-sm text-duo-text-light">
+          화면 아무 곳이나 클릭해도 시작됩니다
         </p>
       </div>
 

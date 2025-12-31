@@ -13,7 +13,6 @@ export const ServiceCard = ({
 }) => {
   const [imgError, setImgError] = useState(false);
 
-  // Get icon URL
   const getIconUrl = () => {
     if (service.icon && !service.icon.startsWith('http')) return null;
     if (service.icon) return service.icon;
@@ -37,22 +36,16 @@ export const ServiceCard = ({
       onClick={onClick}
       className={cn(
         "group relative",
-        "bg-neo-card border-3 border-neo-yellow shadow-neo",
-        "hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-neo-hover",
-        "active:translate-x-[2px] active:translate-y-[2px] active:shadow-none",
+        "bg-white rounded-2xl shadow-soft",
+        "hover:shadow-soft-lg hover:-translate-y-1",
+        "transition-all duration-200",
         editMode ? "cursor-move" : "cursor-pointer",
         className
       )}
     >
-      {/* Content */}
-      <div className="p-4 flex flex-col items-center justify-center space-y-3 h-full min-h-[140px]">
+      <div className="p-5 flex flex-col items-center justify-center space-y-3 h-full min-h-[140px]">
         {/* Icon */}
-        <div className={cn(
-          "w-14 h-14",
-          "bg-neo-surface border-3 border-neo-yellow",
-          "flex items-center justify-center",
-          "group-hover:bg-neo-yellow"
-        )}>
+        <div className="w-14 h-14 bg-duo-muted rounded-xl flex items-center justify-center group-hover:bg-duo-primary/10 transition-colors">
           {showEmoji ? (
             <span className="text-2xl">{service.icon}</span>
           ) : iconUrl && !imgError ? (
@@ -63,22 +56,22 @@ export const ServiceCard = ({
               onError={() => setImgError(true)}
             />
           ) : (
-            <Globe className="w-6 h-6 text-neo-yellow group-hover:text-black" />
+            <Globe className="w-6 h-6 text-duo-text-light" />
           )}
         </div>
 
         {/* Service Name */}
         <div className="text-center">
-          <h3 className="text-sm font-bold text-white line-clamp-1">
+          <h3 className="text-sm font-semibold text-duo-text line-clamp-1">
             {service.name}
           </h3>
           {showCategory && (
-            <span className="inline-block mt-1.5 px-2 py-0.5 text-xs font-bold bg-neo-blue border-2 border-neo-yellow text-black">
+            <span className="inline-block mt-1.5 px-2 py-0.5 text-xs font-medium bg-duo-primary/10 text-duo-primary rounded-full">
               {showCategory}
             </span>
           )}
           {service.description && (
-            <p className="text-xs text-gray-400 mt-1 line-clamp-2">
+            <p className="text-xs text-duo-text-muted mt-1 line-clamp-2">
               {service.description}
             </p>
           )}
@@ -86,9 +79,9 @@ export const ServiceCard = ({
 
         {/* Hover Indicator */}
         {!editMode && (
-          <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
-            <div className="p-1 bg-neo-green border-2 border-neo-yellow">
-              <ExternalLink className="w-3.5 h-3.5 text-black" />
+          <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
+            <div className="p-1.5 bg-duo-primary/10 rounded-lg">
+              <ExternalLink className="w-3.5 h-3.5 text-duo-primary" />
             </div>
           </div>
         )}
@@ -101,18 +94,18 @@ export const ServiceCard = ({
                 e.stopPropagation();
                 onEdit();
               }}
-              className="p-1.5 bg-neo-blue border-2 border-neo-yellow hover:shadow-neo-sm"
+              className="p-2 bg-duo-primary text-white rounded-lg shadow-soft hover:scale-110 transition-transform"
             >
-              <Edit2 size={12} className="text-black" />
+              <Edit2 size={12} />
             </button>
             <button
               onClick={(e) => {
                 e.stopPropagation();
                 onDelete();
               }}
-              className="p-1.5 bg-neo-red border-2 border-neo-yellow hover:shadow-neo-sm"
+              className="p-2 bg-red-500 text-white rounded-lg shadow-soft hover:scale-110 transition-transform"
             >
-              <Trash2 size={12} className="text-black" />
+              <Trash2 size={12} />
             </button>
           </div>
         )}

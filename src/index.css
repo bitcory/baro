@@ -4,32 +4,31 @@
 @tailwind utilities;
 
 :root {
-  /* Neo-Brutalism Dark colors */
-  --neo-bg: #0f0f1a;
-  --neo-card: #1a1a2e;
-  --neo-surface: #252545;
-  --neo-yellow: #FFE156;
-  --neo-green: #7CFF6B;
-  --neo-blue: #6BB5FF;
-  --neo-pink: #FF6BB5;
-  --neo-purple: #B56BFF;
-  --neo-orange: #FF9F6B;
-  --neo-red: #FF6B6B;
-  --neo-cyan: #6BFFF0;
-  --neo-border: #FFE156;
+  /* Duotone Friendly colors */
+  --duo-primary: #6366f1;
+  --duo-primary-light: #818cf8;
+  --duo-primary-dark: #4f46e5;
+  --duo-bg: #fafafa;
+  --duo-surface: #ffffff;
+  --duo-muted: #f4f4f5;
+  --duo-text: #18181b;
+  --duo-text-muted: #71717a;
+  --duo-accent: #8b5cf6;
 }
 
 @layer base {
   html {
     @apply antialiased;
     font-feature-settings: "rlig" 1, "calt" 1;
+    scroll-behavior: smooth;
   }
 
   body {
     min-height: 100vh;
-    background-color: var(--neo-bg);
-    color: #ffffff;
-    font-weight: 500;
+    background: linear-gradient(135deg, #fafafa 0%, #f4f4f5 100%);
+    color: var(--duo-text);
+    font-weight: 400;
+    line-height: 1.6;
   }
 
   #root {
@@ -39,51 +38,49 @@
 }
 
 @layer components {
-  /* Neo-Brutalism card style - Dark */
-  .neo-card {
-    @apply bg-neo-card border-3 border-neo-yellow shadow-neo;
-    transition: transform 0.1s ease, box-shadow 0.1s ease;
+  /* Friendly card style */
+  .friendly-card {
+    @apply bg-white rounded-2xl shadow-soft;
+    transition: all 0.2s ease;
   }
 
-  .neo-card:hover {
-    transform: translate(-2px, -2px);
-    @apply shadow-neo-hover;
+  .friendly-card:hover {
+    @apply shadow-soft-lg;
+    transform: translateY(-2px);
   }
 
-  .neo-card:active {
-    transform: translate(2px, 2px);
-    box-shadow: none;
+  /* Friendly button */
+  .friendly-btn {
+    @apply px-5 py-2.5 rounded-xl font-semibold;
+    @apply bg-duo-primary text-white;
+    @apply shadow-soft hover:shadow-soft-md;
+    transition: all 0.2s ease;
   }
 
-  /* Neo-Brutalism button - Dark */
-  .neo-btn {
-    @apply bg-neo-yellow border-3 border-neo-yellow shadow-neo-sm font-bold text-black;
-    transition: transform 0.1s ease, box-shadow 0.1s ease;
+  .friendly-btn:hover {
+    @apply bg-duo-primary-dark;
+    transform: translateY(-1px);
   }
 
-  .neo-btn:hover {
-    transform: translate(-2px, -2px);
-    @apply shadow-neo;
+  .friendly-btn:active {
+    transform: translateY(0);
   }
 
-  .neo-btn:active {
-    transform: translate(2px, 2px);
-    box-shadow: none;
+  /* Friendly input */
+  .friendly-input {
+    @apply w-full px-4 py-3 rounded-xl;
+    @apply bg-duo-muted border border-transparent;
+    @apply text-duo-text placeholder-duo-text-muted;
+    @apply focus:outline-none focus:border-duo-primary focus:bg-white;
+    @apply focus:ring-2 focus:ring-duo-primary/20;
+    transition: all 0.2s ease;
   }
 
-  /* Neo-Brutalism input - Dark */
-  .neo-input {
-    @apply bg-neo-card border-3 border-neo-yellow px-4 py-2 font-medium text-white;
-    transition: box-shadow 0.1s ease;
-  }
-
-  .neo-input:focus {
-    outline: none;
-    @apply shadow-neo-sm;
-  }
-
-  .neo-input::placeholder {
-    @apply text-gray-400;
+  /* Friendly badge */
+  .friendly-badge {
+    @apply inline-flex items-center px-2.5 py-1 rounded-full;
+    @apply text-xs font-medium;
+    @apply bg-duo-primary/10 text-duo-primary;
   }
 }
 
@@ -98,24 +95,24 @@
     display: none;
   }
 
-  /* Custom scrollbar - Neo Dark style */
+  /* Custom scrollbar - Friendly style */
   ::-webkit-scrollbar {
-    width: 12px;
-    height: 12px;
+    width: 8px;
+    height: 8px;
   }
 
   ::-webkit-scrollbar-track {
-    background: var(--neo-bg);
-    border-left: 2px solid var(--neo-yellow);
+    background: var(--duo-muted);
+    border-radius: 4px;
   }
 
   ::-webkit-scrollbar-thumb {
-    background: var(--neo-yellow);
-    border: 2px solid var(--neo-bg);
+    background: var(--duo-primary-light);
+    border-radius: 4px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: var(--neo-orange);
+    background: var(--duo-primary);
   }
 
   /* Line clamp */
@@ -132,23 +129,30 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
+
+  /* Glass effect */
+  .glass {
+    backdrop-filter: blur(12px);
+    background: rgba(255, 255, 255, 0.8);
+  }
 }
 
-/* Selection - Dark */
+/* Selection */
 ::selection {
-  background: var(--neo-yellow);
-  color: black;
+  background: var(--duo-primary-light);
+  color: white;
 }
 
-/* Focus styles - Dark */
+/* Focus styles */
 :focus-visible {
-  outline: 3px solid var(--neo-yellow);
+  outline: 2px solid var(--duo-primary);
   outline-offset: 2px;
+  border-radius: 8px;
 }
 
-/* Quick transitions for neo-brutalism */
+/* Smooth transitions */
 * {
-  transition-property: transform, box-shadow;
+  transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
   transition-timing-function: ease;
-  transition-duration: 100ms;
+  transition-duration: 150ms;
 }
