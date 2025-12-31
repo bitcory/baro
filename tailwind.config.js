@@ -11,6 +11,20 @@ export default {
         display: ['Space Grotesk', 'sans-serif'],
       },
       colors: {
+        // Duotone palette (for IntroPage)
+        'duo': {
+          'primary': '#6366f1',
+          'primary-light': '#818cf8',
+          'primary-dark': '#4f46e5',
+          'bg': '#fafafa',
+          'surface': '#ffffff',
+          'muted': '#f4f4f5',
+          'text': '#18181b',
+          'text-muted': '#71717a',
+          'text-light': '#a1a1aa',
+          'accent': '#8b5cf6',
+          'accent-light': '#a78bfa',
+        },
         // Memphis UI palette
         'memphis': {
           // Primary colors
@@ -38,6 +52,10 @@ export default {
         'blob': '60% 40% 30% 70% / 60% 30% 70% 40%',
       },
       boxShadow: {
+        // Duotone soft shadows (for IntroPage)
+        'soft-lg': '0 8px 24px -8px rgba(0, 0, 0, 0.12)',
+        'glow': '0 0 20px rgba(99, 102, 241, 0.3)',
+        // Memphis shadows
         'memphis': '4px 4px 0px #1A1A2E',
         'memphis-sm': '2px 2px 0px #1A1A2E',
         'memphis-lg': '6px 6px 0px #1A1A2E',
