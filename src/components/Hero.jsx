@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { cn } from '../utils/cn';
 import { Search, X } from 'lucide-react';
 
-export const Hero = ({ 
-  totalServices, 
-  totalCategories, 
+export const Hero = ({
+  totalServices,
+  totalCategories,
   onSearch,
-  className 
+  className
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -30,22 +30,28 @@ export const Hero = ({
         {/* Search Bar */}
         <div className="max-w-xl mx-auto">
           <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <Search className="h-5 w-5 text-gray-400" />
+            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+              <Search className="h-5 w-5 text-black" />
             </div>
-            <input 
-              type="text" 
+            <input
+              type="text"
               value={searchTerm}
               onChange={(e) => handleSearch(e.target.value)}
-              placeholder="AI 도구 검색..." 
-              className="w-full pl-10 pr-10 py-2.5 bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 rounded-lg border border-gray-200 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-white focus:border-transparent transition-all"
+              placeholder="AI 도구 검색..."
+              className={cn(
+                "w-full pl-12 pr-12 py-3",
+                "bg-white border-3 border-black shadow-neo-sm",
+                "text-black placeholder-gray-500 font-medium",
+                "focus:outline-none focus:shadow-neo",
+                "focus:translate-x-[-2px] focus:translate-y-[-2px]"
+              )}
             />
             {searchTerm && (
               <button
                 onClick={clearSearch}
-                className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                className="absolute inset-y-0 right-0 pr-4 flex items-center"
               >
-                <X className="h-5 w-5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300" />
+                <X className="h-5 w-5 text-black hover:text-neo-red" />
               </button>
             )}
           </div>

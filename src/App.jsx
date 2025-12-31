@@ -5,6 +5,7 @@ import { Hero } from './components/Hero';
 import { TabBar } from './components/TabBar';
 import { ServiceCard } from './components/ServiceCard';
 import { EditServiceModal } from './components/EditServiceModal';
+import { IntroPage } from './components/IntroPage';
 import { cn } from './utils/cn';
 import './App.css';
 
@@ -22,6 +23,15 @@ const getFaviconUrl = (url) => {
 const defaultData = {
   categories: [
     {
+      id: 2,
+      name: 'AI툴비',
+      services: [
+        { id: 54, name: '강의노트', url: 'https://sites.google.com/view/aitoolb01/' },
+        { id: 52, name: '이미지생성기', url: 'https://tbpc.aitoolb.com/' },
+        { id: 56, name: '툴비프레임추출기', url: 'https://tbframe.aitoolb.com/' },
+      ]
+    },
+    {
       id: 1,
       name: '검색',
       services: [
@@ -30,14 +40,6 @@ const defaultData = {
         { id: 2, name: '구글', url: 'https://www.google.com' },
         { id: 3, name: '다음', url: 'https://www.daum.net' },
         { id: 4, name: '네이트', url: 'https://www.nate.com' },
-      ]
-    },
-    {
-      id: 2,
-      name: 'AI툴비',
-      services: [
-        { id: 52, name: 'AI툴비', url: 'https://aivmaker.vercel.app/' },
-        { id: 54, name: '페이크메일', url: 'https://internxt.com/temporary-email' },
       ]
     },
     {
@@ -139,6 +141,11 @@ const defaultData = {
 };
 
 function App() {
+  const [showIntro, setShowIntro] = useState(() => {
+    // 세션 중에는 인트로를 다시 보여주지 않음
+    const hasSeenIntro = sessionStorage.getItem('hasSeenIntro');
+    return !hasSeenIntro;
+  });
   const [theme, setTheme] = useState('dark');
   const [categories, setCategories] = useState([]);
   const [activeTab, setActiveTab] = useState(() => {
@@ -170,19 +177,19 @@ function App() {
     const savedData = localStorage.getItem('aiToolsData');
     if (savedData) {
       const parsed = JSON.parse(savedData);
-      
-      // 검색 카테고리가 없으면 첫 번째로 추가
+
+      // AI툴비 카테고리가 없으면 첫 번째로 추가
       let updatedCategories = parsed.categories;
-      const hasSearchCategory = updatedCategories.some(cat => cat.name === '검색');
-      
-      if (!hasSearchCategory) {
-        // 검색 카테고리를 첫 번째로 추가
-        const searchCategory = defaultData.categories.find(cat => cat.name === '검색');
-        if (searchCategory) {
-          updatedCategories = [searchCategory, ...updatedCategories];
+      const hasAIToolbCategory = updatedCategories.some(cat => cat.name === 'AI툴비');
+
+      if (!hasAIToolbCategory) {
+        // AI툴비 카테고리를 첫 번째로 추가
+        const aiToolbCategory = defaultData.categories.find(cat => cat.name === 'AI툴비');
+        if (aiToolbCategory) {
+          updatedCategories = [aiToolbCategory, ...updatedCategories];
         }
       }
-      
+
       // 저장된 데이터에서 아이콘 정보만 제거하고 나머지는 유지
       const categoriesWithoutIcons = updatedCategories.map(category => ({
         ...category,
@@ -192,11 +199,11 @@ function App() {
           return serviceWithoutIcon;
         })
       }));
-      
+
       setCategories(categoriesWithoutIcons);
-      
-      // 검색 카테고리가 추가되었으면 localStorage 업데이트
-      if (!hasSearchCategory) {
+
+      // AI툴비 카테고리가 추가되었으면 localStorage 업데이트
+      if (!hasAIToolbCategory) {
         localStorage.setItem('aiToolsData', JSON.stringify({ categories: categoriesWithoutIcons }));
       }
     } else {
@@ -350,7 +357,7 @@ function App() {
   const editCategory = (categoryId) => {
     const category = categories.find(c => c.id === categoryId);
     const newName = prompt('카테고리 이름을 수정하세요:', category.name);
-    
+
     if (newName) {
       const newCategories = categories.map(cat => {
         if (cat.id === categoryId) {
@@ -375,7 +382,7 @@ function App() {
       timestamp: new Date().toISOString(),
       version: '1.0'
     };
-    
+
     const blob = new Blob([JSON.stringify(dataToBackup, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -393,7 +400,7 @@ function App() {
     reader.onload = (e) => {
       try {
         const data = JSON.parse(e.target.result);
-        
+
         // Validate the data structure
         if (data.categories && Array.isArray(data.categories)) {
           // Remove icon properties from restored data
@@ -404,7 +411,7 @@ function App() {
               return serviceWithoutIcon;
             })
           }));
-          
+
           if (confirm('이 작업은 현재 모든 데이터를 백업 파일의 데이터로 교체합니다. 계속하시겠습니까?')) {
             setCategories(categoriesWithoutIcons);
             localStorage.setItem('aiToolsData', JSON.stringify({ categories: categoriesWithoutIcons }));
@@ -443,36 +450,36 @@ function App() {
   // Handle drop
   const handleDrop = (e, targetService, targetCategoryId) => {
     e.preventDefault();
-    
+
     if (!draggedService || !targetService) return;
-    
+
     const sourceCategoryId = draggedService.categoryId;
     const sourceService = draggedService.service;
-    
+
     // If dropping on the same service, do nothing
     if (sourceService.id === targetService.id && sourceCategoryId === targetCategoryId) {
       setDraggedService(null);
       setDraggedOverService(null);
       return;
     }
-    
+
     const newCategories = [...categories];
-    
+
     // Find source and target categories
     const sourceCategory = newCategories.find(cat => cat.id === sourceCategoryId);
     const targetCategory = newCategories.find(cat => cat.id === targetCategoryId);
-    
+
     if (!sourceCategory || !targetCategory) return;
-    
+
     // Remove service from source category
     const sourceIndex = sourceCategory.services.findIndex(s => s.id === sourceService.id);
     if (sourceIndex === -1) return;
-    
+
     sourceCategory.services.splice(sourceIndex, 1);
-    
+
     // Add service to target category at the correct position
     const targetIndex = targetCategory.services.findIndex(s => s.id === targetService.id);
-    
+
     if (sourceCategoryId === targetCategoryId) {
       // Reordering within the same category
       const adjustedTargetIndex = sourceIndex < targetIndex ? targetIndex - 1 : targetIndex;
@@ -481,10 +488,10 @@ function App() {
       // Moving to a different category
       targetCategory.services.splice(targetIndex + 1, 0, sourceService);
     }
-    
+
     setCategories(newCategories);
     localStorage.setItem('aiToolsData', JSON.stringify({ categories: newCategories }));
-    
+
     setDraggedService(null);
     setDraggedOverService(null);
   };
@@ -515,7 +522,7 @@ function App() {
     // Search across all categories
     const allServices = [];
     categories.forEach(category => {
-      const filteredServices = category.services.filter(service => 
+      const filteredServices = category.services.filter(service =>
         service.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         (service.description && service.description.toLowerCase().includes(searchTerm.toLowerCase()))
       );
@@ -531,189 +538,265 @@ function App() {
   const currentCategory = activeTab >= 0 ? categories[activeTab] : null;
   const displayServices = searchTerm ? getFilteredServices() : (currentCategory ? currentCategory.services : []);
 
+  // 인트로 페이지에서 메인으로 전환
+  const handleEnterFromIntro = () => {
+    sessionStorage.setItem('hasSeenIntro', 'true');
+    setShowIntro(false);
+  };
+
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-black">
-      {/* Navbar */}
-      <Navbar 
-        logo="BAROGA"
-        theme={theme}
-        onThemeToggle={toggleTheme}
-        editMode={editMode}
-        onEditToggle={() => setEditMode(!editMode)}
-        onLogoClick={() => {
-          setActiveTab(0);  // 첫 번째 탭으로 이동
-          setSearchTerm(''); // 검색 초기화
-          window.scrollTo({ top: 0, behavior: 'smooth' }); // 맨 위로 스크롤
-        }}
-        onBackup={handleBackup}
-        onRestore={handleRestore}
-      />
+    <>
+      {/* Intro Page */}
+      {showIntro && <IntroPage onEnter={handleEnterFromIntro} />}
 
-      {/* Hero Section */}
-      <Hero 
-        totalServices={totalServices}
-        totalCategories={categories.length}
-        onSearch={handleSearch}
-      />
-
-      {/* Category Tabs */}
-      {!searchTerm && (
-        <TabBar 
-          categories={categories}
-          activeTab={activeTab}
-          onTabChange={setActiveTab}
+      <div className={cn("min-h-screen", showIntro && "overflow-hidden")}>
+        {/* Navbar */}
+        <Navbar
+          logo="BAROGA"
+          theme={theme}
+          onThemeToggle={toggleTheme}
           editMode={editMode}
-          onAddCategory={addCategory}
-          onEditCategory={editCategory}
-          onDeleteCategory={deleteCategory}
-          onReorderCategories={reorderCategories}
+          onEditToggle={() => setEditMode(!editMode)}
+          onLogoClick={() => {
+            setActiveTab(0);
+            setSearchTerm('');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+          onBackup={handleBackup}
+          onRestore={handleRestore}
         />
-      )}
 
-      {/* Main Content */}
-      <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {(currentCategory || searchTerm) && (
-          <div className="space-y-8">
-            {/* Search Results Info */}
-            {searchTerm && (
-              <div className="mb-4">
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  '{searchTerm}' 검색 결과: <span className="font-semibold">{displayServices.length}개</span> 서비스
-                </p>
-              </div>
-            )}
+        {/* Hero Section */}
+        <Hero
+          totalServices={totalServices}
+          totalCategories={categories.length}
+          onSearch={handleSearch}
+        />
 
-            {/* Services Grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-4">
-              {displayServices.map((service) => (
-                <div
-                  key={service.id}
-                  draggable={editMode && !searchTerm}
-                  onDragStart={(e) => handleDragStart(e, service, currentCategory?.id)}
-                  onDragOver={handleDragOver}
-                  onDragEnter={(e) => handleDragEnter(e, service, currentCategory?.id)}
-                  onDrop={(e) => handleDrop(e, service, currentCategory?.id)}
-                  onDragEnd={handleDragEnd}
-                  className={cn(
-                    editMode && !searchTerm && "cursor-move",
-                    draggedOverService?.service.id === service.id && "opacity-50"
-                  )}
-                >
-                  <ServiceCard
-                    service={service}
-                    onClick={() => handleServiceClick(service)}
-                    editMode={editMode && !searchTerm}
-                    onEdit={() => editService(currentCategory?.id, service.id)}
-                    onDelete={() => deleteService(currentCategory?.id, service.id)}
-                    showCategory={searchTerm && service.categoryName}
-                  />
-                </div>
-              ))}
-              
-              {/* Add Service Card - only show when not searching */}
-              {!searchTerm && currentCategory && (
-                <div
-                  onClick={() => addService(currentCategory.id)}
-                className={cn(
-                  "group relative rounded-xl overflow-hidden",
-                  "transition-all duration-200 cursor-pointer",
-                  "border border-dashed border-gray-300 dark:border-gray-700",
-                  "hover:border-gray-400 dark:hover:border-gray-600",
-                  "hover:bg-gray-50 dark:hover:bg-gray-900/50"
-                )}
-              >
-                <div className="p-6 flex flex-col items-center justify-center space-y-3 h-full min-h-[140px]">
-                  <div className="w-10 h-10 rounded-lg bg-gray-100 dark:bg-gray-800 flex items-center justify-center group-hover:bg-gray-200 dark:group-hover:bg-gray-700 transition-colors">
-                    <Plus size={20} className="text-gray-400 dark:text-gray-500" />
-                  </div>
-                  <span className="text-xs text-gray-500 dark:text-gray-400">
-                    서비스 추가
-                  </span>
-                </div>
-              </div>
-              )}
-            </div>
-
-            {/* Utility Tools Section */}
-            <div className="mt-12 py-8 border-t border-gray-200 dark:border-gray-800">
-              <div className="text-center space-y-4">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">
-                  유용한 유틸
-                </h3>
-                <div className="flex justify-center gap-4 flex-wrap">
-                  {/* Snipaste Button */}
-                  <a
-                    href="https://www.snipaste.com/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-all duration-200 hover:scale-105 hover:shadow-lg"
-                  >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
-                    <span className="font-medium">Snipaste</span>
-                    <span className="text-xs opacity-75">캡쳐프로그램</span>
-                  </a>
-
-                  {/* Everything Button */}
-                  <a
-                    href="https://www.voidtools.com/ko-kr/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-all duration-200 hover:scale-105 hover:shadow-lg"
-                  >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </svg>
-                    <span className="font-medium">Everything</span>
-                    <span className="text-xs opacity-75">초고속 검색프로그램</span>
-                  </a>
-
-                  {/* PhotoScape X Button */}
-                  <a
-                    href="http://x.photoscape.org/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-all duration-200 hover:scale-105 hover:shadow-lg"
-                  >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
-                    <span className="font-medium">PhotoScape X</span>
-                    <span className="text-xs opacity-75">사진편집프로그램</span>
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            {/* Footer Stats */}
-            <div className="mt-8 py-8 border-t border-gray-200 dark:border-gray-800">
-              <div className="text-center space-y-2">
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  총 <span className="text-gray-900 dark:text-white font-semibold">{totalServices}개</span>의 AI 서비스 •
-                  <span className="text-gray-900 dark:text-white font-semibold"> {categories.length}개</span> 카테고리
-                </p>
-                <p className="text-xs text-gray-500 dark:text-gray-500">
-                  지속적으로 업데이트되고 있습니다
-                </p>
-              </div>
-            </div>
-          </div>
+        {/* Category Tabs */}
+        {!searchTerm && (
+          <TabBar
+            categories={categories}
+            activeTab={activeTab}
+            onTabChange={setActiveTab}
+            editMode={editMode}
+            onAddCategory={addCategory}
+            onEditCategory={editCategory}
+            onDeleteCategory={deleteCategory}
+            onReorderCategories={reorderCategories}
+          />
         )}
-      </main>
 
-      {/* Edit Service Modal */}
-      <EditServiceModal 
-        service={editingService}
-        isOpen={!!editingService}
-        onClose={() => {
-          setEditingService(null);
-          setEditingCategoryId(null);
-          setIsAddingService(false);
-        }}
-        onSave={isAddingService ? handleAddService : handleSaveService}
-      />
-    </div>
+        {/* Main Content */}
+        <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          {(currentCategory || searchTerm) && (
+            <div className="space-y-8">
+              {/* Search Results Info */}
+              {searchTerm && (
+                <div className="mb-4">
+                  <div className="inline-block px-4 py-2 bg-neo-blue border-3 border-black shadow-neo-sm">
+                    <p className="text-sm font-bold text-black">
+                      '{searchTerm}' 검색 결과: <span className="font-black">{displayServices.length}개</span> 서비스
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              {/* Services Grid */}
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-4">
+                {displayServices.map((service) => (
+                  <div
+                    key={service.id}
+                    draggable={editMode && !searchTerm}
+                    onDragStart={(e) => handleDragStart(e, service, currentCategory?.id)}
+                    onDragOver={handleDragOver}
+                    onDragEnter={(e) => handleDragEnter(e, service, currentCategory?.id)}
+                    onDrop={(e) => handleDrop(e, service, currentCategory?.id)}
+                    onDragEnd={handleDragEnd}
+                    className={cn(
+                      editMode && !searchTerm && "cursor-move",
+                      draggedOverService?.service.id === service.id && "opacity-50"
+                    )}
+                  >
+                    <ServiceCard
+                      service={service}
+                      onClick={() => handleServiceClick(service)}
+                      editMode={editMode && !searchTerm}
+                      onEdit={() => editService(currentCategory?.id, service.id)}
+                      onDelete={() => deleteService(currentCategory?.id, service.id)}
+                      showCategory={searchTerm && service.categoryName}
+                    />
+                  </div>
+                ))}
+
+                {/* Add Service Card - only show when not searching */}
+                {!searchTerm && currentCategory && (
+                  <div
+                    onClick={() => addService(currentCategory.id)}
+                    className={cn(
+                      "group relative overflow-hidden cursor-pointer",
+                      "bg-white border-3 border-dashed border-black",
+                      "hover:border-solid hover:bg-neo-green hover:shadow-neo-sm",
+                      "hover:translate-x-[-2px] hover:translate-y-[-2px]"
+                    )}
+                  >
+                    <div className="p-6 flex flex-col items-center justify-center space-y-3 h-full min-h-[140px]">
+                      <div className="w-10 h-10 bg-neo-bg border-2 border-black flex items-center justify-center group-hover:bg-white">
+                        <Plus size={20} className="text-black" />
+                      </div>
+                      <span className="text-xs font-bold text-black">
+                        서비스 추가
+                      </span>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Utility Tools Section */}
+              <div className="mt-12 py-8 border-t-3 border-black">
+                <div className="text-center space-y-6">
+                  <h3 className="inline-block text-lg font-black text-black px-4 py-2 bg-neo-purple border-3 border-black shadow-neo-sm">
+                    유용한 유틸
+                  </h3>
+                  <div className="flex justify-center gap-4 flex-wrap">
+                    {/* Snipaste Button */}
+                    <a
+                      href="https://www.snipaste.com/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={cn(
+                        "inline-flex items-center gap-2 px-6 py-3",
+                        "bg-neo-blue border-3 border-black shadow-neo-sm font-bold",
+                        "hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-neo",
+                        "active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
+                      )}
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      </svg>
+                      <span>Snipaste</span>
+                      <span className="text-xs px-2 py-0.5 bg-white border-2 border-black">캡쳐</span>
+                    </a>
+
+                    {/* Everything Button */}
+                    <a
+                      href="https://www.voidtools.com/ko-kr/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={cn(
+                        "inline-flex items-center gap-2 px-6 py-3",
+                        "bg-neo-green border-3 border-black shadow-neo-sm font-bold",
+                        "hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-neo",
+                        "active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
+                      )}
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                      </svg>
+                      <span>Everything</span>
+                      <span className="text-xs px-2 py-0.5 bg-white border-2 border-black">검색</span>
+                    </a>
+
+                    {/* PhotoScape X Button */}
+                    <a
+                      href="http://x.photoscape.org/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={cn(
+                        "inline-flex items-center gap-2 px-6 py-3",
+                        "bg-neo-pink border-3 border-black shadow-neo-sm font-bold",
+                        "hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-neo",
+                        "active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
+                      )}
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      </svg>
+                      <span>PhotoScape X</span>
+                      <span className="text-xs px-2 py-0.5 bg-white border-2 border-black">편집</span>
+                    </a>
+
+                    {/* CapCut Download Button */}
+                    <a
+                      href="https://aitoolb.com/61"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={cn(
+                        "inline-flex items-center gap-2 px-6 py-3",
+                        "bg-neo-orange border-3 border-black shadow-neo-sm font-bold",
+                        "hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-neo",
+                        "active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
+                      )}
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                      </svg>
+                      <span>무료캡컷다운로드</span>
+                      <span className="text-xs px-2 py-0.5 bg-white border-2 border-black">영상</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              {/* YouTube Section */}
+              <div className="mt-8 py-8 border-t-3 border-black">
+                <div className="text-center space-y-6">
+                  <h3 className="inline-block text-lg font-black text-black px-4 py-2 bg-neo-red border-3 border-black shadow-neo-sm">
+                    YouTube
+                  </h3>
+                  <div className="flex justify-center gap-4 flex-wrap">
+                    <a
+                      href="https://www.youtube.com/results?search_query=ai%ED%88%B4%EB%B9%84"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={cn(
+                        "inline-flex items-center gap-2 px-6 py-3",
+                        "bg-neo-red border-3 border-black shadow-neo-sm font-bold",
+                        "hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-neo",
+                        "active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
+                      )}
+                    >
+                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                      </svg>
+                      <span>AI툴비 유튜브</span>
+                      <span className="text-xs px-2 py-0.5 bg-white border-2 border-black">채널</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              {/* Footer Stats */}
+              <div className="mt-8 py-8 border-t-3 border-black">
+                <div className="text-center space-y-3">
+                  <div className="inline-block px-6 py-3 bg-neo-yellow border-3 border-black shadow-neo-sm">
+                    <p className="text-sm font-bold text-black">
+                      총 <span className="font-black">{totalServices}개</span>의 AI 서비스 •
+                      <span className="font-black"> {categories.length}개</span> 카테고리
+                    </p>
+                  </div>
+                  <p className="text-xs font-medium text-gray-600">
+                    지속적으로 업데이트되고 있습니다
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+        </main>
+
+        {/* Edit Service Modal */}
+        <EditServiceModal
+          service={editingService}
+          isOpen={!!editingService}
+          onClose={() => {
+            setEditingService(null);
+            setEditingCategoryId(null);
+            setIsAddingService(false);
+          }}
+          onSave={isAddingService ? handleAddService : handleSaveService}
+        />
+      </div>
+    </>
   );
 }
 

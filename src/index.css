@@ -1,33 +1,18 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+KR:wght@300;400;500;600;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  /* Modern color palette */
-  --gradient-start: #1e3a8a;
-  --gradient-end: #312e81;
-  --accent-blue: #3b82f6;
-  --accent-purple: #a855f7;
-  --accent-pink: #ec4899;
-  --accent-green: #22c55e;
-  
-  /* Dark theme colors */
-  --bg-primary: #0a0a0b;
-  --bg-secondary: #111113;
-  --bg-tertiary: #1a1a1d;
-  --bg-card: rgba(255, 255, 255, 0.02);
-  
-  /* Text colors */
-  --text-primary: #f8fafc;
-  --text-secondary: #cbd5e1;
-  --text-tertiary: #94a3b8;
-  --text-muted: #64748b;
-  
-  /* Border colors */
-  --border-default: rgba(255, 255, 255, 0.08);
-  --border-hover: rgba(255, 255, 255, 0.15);
-  --border-focus: rgba(59, 130, 246, 0.5);
+  /* Neo-Brutalism colors */
+  --neo-bg: #FEF3E2;
+  --neo-yellow: #FFE156;
+  --neo-green: #7CFF6B;
+  --neo-blue: #6BB5FF;
+  --neo-pink: #FF6BB5;
+  --neo-purple: #B56BFF;
+  --neo-orange: #FF9F6B;
+  --neo-red: #FF6B6B;
 }
 
 @layer base {
@@ -35,88 +20,131 @@
     @apply antialiased;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
-  
+
   body {
-    background: linear-gradient(to bottom, #0a0a0b, #111113);
-    color: #f8fafc;
     min-height: 100vh;
-    position: relative;
+    background-color: var(--neo-bg);
+    color: #000000;
+    font-weight: 500;
   }
-  
-  body::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: 
-      radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
-      radial-gradient(circle at 80% 20%, rgba(168, 85, 247, 0.08) 0%, transparent 50%),
-      radial-gradient(circle at 40% 40%, rgba(236, 72, 153, 0.05) 0%, transparent 50%);
-    pointer-events: none;
-    z-index: 0;
-  }
-  
-  /* Noise texture overlay for depth */
-  body::after {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    opacity: 0.015;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 1;
-  }
-  
+
   #root {
     position: relative;
-    z-index: 2;
+    z-index: 1;
+  }
+}
+
+@layer components {
+  /* Neo-Brutalism card style */
+  .neo-card {
+    @apply bg-white border-3 border-black shadow-neo;
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+  }
+
+  .neo-card:hover {
+    transform: translate(-2px, -2px);
+    @apply shadow-neo-hover;
+  }
+
+  .neo-card:active {
+    transform: translate(2px, 2px);
+    box-shadow: none;
+  }
+
+  /* Neo-Brutalism button */
+  .neo-btn {
+    @apply bg-neo-yellow border-3 border-black shadow-neo-sm font-bold;
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+  }
+
+  .neo-btn:hover {
+    transform: translate(-2px, -2px);
+    @apply shadow-neo;
+  }
+
+  .neo-btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: none;
+  }
+
+  /* Neo-Brutalism input */
+  .neo-input {
+    @apply bg-white border-3 border-black px-4 py-2 font-medium;
+    transition: box-shadow 0.1s ease;
+  }
+
+  .neo-input:focus {
+    outline: none;
+    @apply shadow-neo-sm;
+  }
+
+  .neo-input::placeholder {
+    @apply text-gray-500;
   }
 }
 
 @layer utilities {
-  /* Text gradients */
-  .text-gradient {
-    background: linear-gradient(to right, #60a5fa, #a855f7);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+  /* Scrollbar */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
-  
-  .text-gradient-reverse {
-    background: linear-gradient(to left, #ec4899, #a855f7);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
   }
-  
-  /* Glassmorphism utilities */
-  .glass {
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+
+  /* Custom scrollbar - Neo style */
+  ::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
   }
-  
-  .glass-hover:hover {
-    background: rgba(255, 255, 255, 0.04);
-    border-color: rgba(255, 255, 255, 0.08);
+
+  ::-webkit-scrollbar-track {
+    background: var(--neo-bg);
+    border-left: 2px solid black;
   }
-  
-  /* Glow effects */
-  .glow {
-    filter: drop-shadow(0 0 20px currentColor);
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--neo-yellow);
+    border: 2px solid black;
   }
-  
-  .glow-sm {
-    filter: drop-shadow(0 0 10px currentColor);
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--neo-orange);
   }
-  
-  .glow-lg {
-    filter: drop-shadow(0 0 30px currentColor);
+
+  /* Line clamp */
+  .line-clamp-1 {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
+
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+/* Selection */
+::selection {
+  background: var(--neo-yellow);
+  color: black;
+}
+
+/* Focus styles */
+:focus-visible {
+  outline: 3px solid black;
+  outline-offset: 2px;
+}
+
+/* Quick transitions for neo-brutalism */
+* {
+  transition-property: transform, box-shadow;
+  transition-timing-function: ease;
+  transition-duration: 100ms;
 }

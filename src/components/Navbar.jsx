@@ -1,9 +1,9 @@
 import React, { useState, useRef } from 'react';
 import { cn } from '../utils/cn';
-import { Menu, X, Sun, Moon, Edit2, Layers, Download, Upload } from 'lucide-react';
+import { Menu, X, Edit2, Download, Upload } from 'lucide-react';
 
-export const Navbar = ({ 
-  logo = 'BBALI',
+export const Navbar = ({
+  logo = 'BAROGA',
   onThemeToggle,
   theme = 'dark',
   editMode,
@@ -19,18 +19,16 @@ export const Navbar = ({
   return (
     <nav
       className={cn(
-        'w-full backdrop-blur-xl transition-all duration-200',
-        'sticky top-0 z-50',
-        'bg-white/70 dark:bg-gray-900/70',
-        'border-b border-gray-200 dark:border-gray-800',
+        'w-full sticky top-0 z-50',
+        'bg-neo-yellow border-b-3 border-black',
         className
       )}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex h-14 items-center justify-between">
+        <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <div className="flex items-center">
-            <a 
+            <a
               href="/"
               onClick={(e) => {
                 e.preventDefault();
@@ -40,35 +38,46 @@ export const Navbar = ({
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                 }
               }}
-              className="flex-shrink-0 flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity"
+              className="flex-shrink-0 cursor-pointer group"
             >
-              <Layers className="h-5 w-5 text-gray-900 dark:text-white" />
-              <h1 className="text-xl font-semibold text-gray-900 dark:text-white">
+              <h1 className={cn(
+                "text-2xl font-black text-black",
+                "hover:rotate-[-2deg]",
+                "transition-transform duration-100"
+              )}>
                 {logo}
               </h1>
             </a>
           </div>
 
           {/* Desktop Actions */}
-          <div className="hidden md:flex items-center gap-2">
+          <div className="hidden md:flex items-center gap-3">
             {/* Backup Button */}
             <button
               onClick={onBackup}
-              className="p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors border border-gray-300 dark:border-gray-700"
+              className={cn(
+                "p-2 bg-neo-blue border-3 border-black shadow-neo-sm",
+                "hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-neo",
+                "active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
+              )}
               aria-label="Download backup"
               title="백업 다운로드"
             >
-              <Download size={18} />
+              <Download size={18} className="text-black" />
             </button>
 
             {/* Restore Button */}
             <button
               onClick={() => fileInputRef.current?.click()}
-              className="p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors border border-gray-300 dark:border-gray-700"
+              className={cn(
+                "p-2 bg-neo-green border-3 border-black shadow-neo-sm",
+                "hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-neo",
+                "active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
+              )}
               aria-label="Upload backup"
               title="백업 복원"
             >
-              <Upload size={18} />
+              <Upload size={18} className="text-black" />
             </button>
             <input
               ref={fileInputRef}
@@ -79,36 +88,24 @@ export const Navbar = ({
                 const file = e.target.files?.[0];
                 if (file) {
                   onRestore(file);
-                  e.target.value = ''; // Reset input for future uploads
+                  e.target.value = '';
                 }
               }}
             />
 
-            {/* Theme Toggle */}
-            <button
-              onClick={onThemeToggle}
-              className="p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors border border-gray-300 dark:border-gray-700"
-              aria-label="Toggle theme"
-            >
-              {theme === 'light' ? (
-                <Moon size={18} />
-              ) : (
-                <Sun size={18} />
-              )}
-            </button>
-            
             {/* Edit Mode Toggle */}
             <button
               onClick={onEditToggle}
               className={cn(
-                "px-3 py-1.5 rounded-lg text-sm font-medium transition-all border",
-                editMode 
-                  ? "bg-gray-900 dark:bg-white text-white dark:text-gray-900 border-gray-900 dark:border-white"
-                  : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 border-gray-300 dark:border-gray-700"
+                "px-4 py-2 font-bold border-3 border-black shadow-neo-sm",
+                "flex items-center gap-2",
+                "hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-neo",
+                "active:translate-x-[2px] active:translate-y-[2px] active:shadow-none",
+                editMode ? "bg-neo-pink" : "bg-white"
               )}
             >
-              <Edit2 size={16} className="inline mr-1.5" />
-              편집
+              <Edit2 size={16} className={editMode ? "animate-spin" : ""} />
+              {editMode ? '편집중' : '편집'}
             </button>
           </div>
 
@@ -116,12 +113,16 @@ export const Navbar = ({
           <div className="md:hidden">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800"
+              className={cn(
+                "p-2 bg-white border-3 border-black shadow-neo-sm",
+                "hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-neo",
+                "active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
+              )}
             >
               {mobileMenuOpen ? (
-                <X className="block h-5 w-5" />
+                <X className="block h-5 w-5 text-black" />
               ) : (
-                <Menu className="block h-5 w-5" />
+                <Menu className="block h-5 w-5 text-black" />
               )}
             </button>
           </div>
@@ -130,36 +131,27 @@ export const Navbar = ({
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
+        <div className="md:hidden border-t-3 border-black bg-white">
           <div className="px-4 py-3 space-y-2">
             <button
               onClick={onBackup}
-              className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800"
+              className="w-full flex items-center gap-3 px-4 py-3 bg-neo-blue border-3 border-black font-bold hover:shadow-neo-sm"
             >
               <Download size={18} />
               백업 다운로드
             </button>
             <button
               onClick={() => fileInputRef.current?.click()}
-              className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800"
+              className="w-full flex items-center gap-3 px-4 py-3 bg-neo-green border-3 border-black font-bold hover:shadow-neo-sm"
             >
               <Upload size={18} />
               백업 복원
             </button>
             <button
-              onClick={onThemeToggle}
-              className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800"
-            >
-              {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
-              {theme === 'light' ? '다크 모드' : '라이트 모드'}
-            </button>
-            <button
               onClick={onEditToggle}
               className={cn(
-                "w-full flex items-center gap-2 px-3 py-2 rounded-lg",
-                editMode 
-                  ? "bg-gray-900 dark:bg-white text-white dark:text-gray-900"
-                  : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800"
+                "w-full flex items-center gap-3 px-4 py-3 border-3 border-black font-bold hover:shadow-neo-sm",
+                editMode ? "bg-neo-pink" : "bg-white"
               )}
             >
               <Edit2 size={18} />
