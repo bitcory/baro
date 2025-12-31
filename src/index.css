@@ -4,8 +4,10 @@
 @tailwind utilities;
 
 :root {
-  /* Neo-Brutalism colors */
-  --neo-bg: #FEF3E2;
+  /* Neo-Brutalism Dark colors */
+  --neo-bg: #0f0f1a;
+  --neo-card: #1a1a2e;
+  --neo-surface: #252545;
   --neo-yellow: #FFE156;
   --neo-green: #7CFF6B;
   --neo-blue: #6BB5FF;
@@ -13,6 +15,8 @@
   --neo-purple: #B56BFF;
   --neo-orange: #FF9F6B;
   --neo-red: #FF6B6B;
+  --neo-cyan: #6BFFF0;
+  --neo-border: #FFE156;
 }
 
 @layer base {
@@ -24,7 +28,7 @@
   body {
     min-height: 100vh;
     background-color: var(--neo-bg);
-    color: #000000;
+    color: #ffffff;
     font-weight: 500;
   }
 
@@ -35,9 +39,9 @@
 }
 
 @layer components {
-  /* Neo-Brutalism card style */
+  /* Neo-Brutalism card style - Dark */
   .neo-card {
-    @apply bg-white border-3 border-black shadow-neo;
+    @apply bg-neo-card border-3 border-neo-yellow shadow-neo;
     transition: transform 0.1s ease, box-shadow 0.1s ease;
   }
 
@@ -51,9 +55,9 @@
     box-shadow: none;
   }
 
-  /* Neo-Brutalism button */
+  /* Neo-Brutalism button - Dark */
   .neo-btn {
-    @apply bg-neo-yellow border-3 border-black shadow-neo-sm font-bold;
+    @apply bg-neo-yellow border-3 border-neo-yellow shadow-neo-sm font-bold text-black;
     transition: transform 0.1s ease, box-shadow 0.1s ease;
   }
 
@@ -67,9 +71,9 @@
     box-shadow: none;
   }
 
-  /* Neo-Brutalism input */
+  /* Neo-Brutalism input - Dark */
   .neo-input {
-    @apply bg-white border-3 border-black px-4 py-2 font-medium;
+    @apply bg-neo-card border-3 border-neo-yellow px-4 py-2 font-medium text-white;
     transition: box-shadow 0.1s ease;
   }
 
@@ -79,7 +83,7 @@
   }
 
   .neo-input::placeholder {
-    @apply text-gray-500;
+    @apply text-gray-400;
   }
 }
 
@@ -94,7 +98,7 @@
     display: none;
   }
 
-  /* Custom scrollbar - Neo style */
+  /* Custom scrollbar - Neo Dark style */
   ::-webkit-scrollbar {
     width: 12px;
     height: 12px;
@@ -102,12 +106,12 @@
 
   ::-webkit-scrollbar-track {
     background: var(--neo-bg);
-    border-left: 2px solid black;
+    border-left: 2px solid var(--neo-yellow);
   }
 
   ::-webkit-scrollbar-thumb {
     background: var(--neo-yellow);
-    border: 2px solid black;
+    border: 2px solid var(--neo-bg);
   }
 
   ::-webkit-scrollbar-thumb:hover {
@@ -130,15 +134,15 @@
   }
 }
 
-/* Selection */
+/* Selection - Dark */
 ::selection {
   background: var(--neo-yellow);
   color: black;
 }
 
-/* Focus styles */
+/* Focus styles - Dark */
 :focus-visible {
-  outline: 3px solid black;
+  outline: 3px solid var(--neo-yellow);
   outline-offset: 2px;
 }
 

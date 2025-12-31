@@ -594,7 +594,7 @@ function App() {
               {/* Search Results Info */}
               {searchTerm && (
                 <div className="mb-4">
-                  <div className="inline-block px-4 py-2 bg-neo-blue border-3 border-black shadow-neo-sm">
+                  <div className="inline-block px-4 py-2 bg-neo-blue border-3 border-neo-yellow shadow-neo-sm">
                     <p className="text-sm font-bold text-black">
                       '{searchTerm}' 검색 결과: <span className="font-black">{displayServices.length}개</span> 서비스
                     </p>
@@ -635,16 +635,16 @@ function App() {
                     onClick={() => addService(currentCategory.id)}
                     className={cn(
                       "group relative overflow-hidden cursor-pointer",
-                      "bg-white border-3 border-dashed border-black",
+                      "bg-neo-card border-3 border-dashed border-neo-yellow",
                       "hover:border-solid hover:bg-neo-green hover:shadow-neo-sm",
                       "hover:translate-x-[-2px] hover:translate-y-[-2px]"
                     )}
                   >
                     <div className="p-6 flex flex-col items-center justify-center space-y-3 h-full min-h-[140px]">
-                      <div className="w-10 h-10 bg-neo-bg border-2 border-black flex items-center justify-center group-hover:bg-white">
-                        <Plus size={20} className="text-black" />
+                      <div className="w-10 h-10 bg-neo-surface border-2 border-neo-yellow flex items-center justify-center group-hover:bg-neo-card">
+                        <Plus size={20} className="text-neo-yellow group-hover:text-black" />
                       </div>
-                      <span className="text-xs font-bold text-black">
+                      <span className="text-xs font-bold text-white group-hover:text-black">
                         서비스 추가
                       </span>
                     </div>
@@ -653,9 +653,9 @@ function App() {
               </div>
 
               {/* Utility Tools Section */}
-              <div className="mt-12 py-8 border-t-3 border-black">
+              <div className="mt-12 py-8 border-t-3 border-neo-yellow/30">
                 <div className="text-center space-y-6">
-                  <h3 className="inline-block text-lg font-black text-black px-4 py-2 bg-neo-purple border-3 border-black shadow-neo-sm">
+                  <h3 className="inline-block text-lg font-black text-black px-4 py-2 bg-neo-purple border-3 border-neo-yellow shadow-neo-sm">
                     유용한 유틸
                   </h3>
                   <div className="flex justify-center gap-4 flex-wrap">
@@ -666,7 +666,7 @@ function App() {
                       rel="noopener noreferrer"
                       className={cn(
                         "inline-flex items-center gap-2 px-6 py-3",
-                        "bg-neo-blue border-3 border-black shadow-neo-sm font-bold",
+                        "bg-neo-blue border-3 border-neo-yellow shadow-neo-sm font-bold text-black",
                         "hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-neo",
                         "active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
                       )}
@@ -675,7 +675,7 @@ function App() {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                       </svg>
                       <span>Snipaste</span>
-                      <span className="text-xs px-2 py-0.5 bg-white border-2 border-black">캡쳐</span>
+                      <span className="text-xs px-2 py-0.5 bg-neo-card border-2 border-neo-yellow text-white">캡쳐</span>
                     </a>
 
                     {/* Everything Button */}
@@ -685,7 +685,7 @@ function App() {
                       rel="noopener noreferrer"
                       className={cn(
                         "inline-flex items-center gap-2 px-6 py-3",
-                        "bg-neo-green border-3 border-black shadow-neo-sm font-bold",
+                        "bg-neo-green border-3 border-neo-yellow shadow-neo-sm font-bold text-black",
                         "hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-neo",
                         "active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
                       )}
@@ -694,7 +694,7 @@ function App() {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                       </svg>
                       <span>Everything</span>
-                      <span className="text-xs px-2 py-0.5 bg-white border-2 border-black">검색</span>
+                      <span className="text-xs px-2 py-0.5 bg-neo-card border-2 border-neo-yellow text-white">검색</span>
                     </a>
 
                     {/* PhotoScape X Button */}
@@ -704,7 +704,7 @@ function App() {
                       rel="noopener noreferrer"
                       className={cn(
                         "inline-flex items-center gap-2 px-6 py-3",
-                        "bg-neo-pink border-3 border-black shadow-neo-sm font-bold",
+                        "bg-neo-pink border-3 border-neo-yellow shadow-neo-sm font-bold text-black",
                         "hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-neo",
                         "active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
                       )}
@@ -713,7 +713,7 @@ function App() {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                       </svg>
                       <span>PhotoScape X</span>
-                      <span className="text-xs px-2 py-0.5 bg-white border-2 border-black">편집</span>
+                      <span className="text-xs px-2 py-0.5 bg-neo-card border-2 border-neo-yellow text-white">편집</span>
                     </a>
 
                     {/* CapCut Download Button */}
@@ -723,7 +723,7 @@ function App() {
                       rel="noopener noreferrer"
                       className={cn(
                         "inline-flex items-center gap-2 px-6 py-3",
-                        "bg-neo-orange border-3 border-black shadow-neo-sm font-bold",
+                        "bg-neo-orange border-3 border-neo-yellow shadow-neo-sm font-bold text-black",
                         "hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-neo",
                         "active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
                       )}
@@ -732,16 +732,16 @@ function App() {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                       </svg>
                       <span>무료캡컷다운로드</span>
-                      <span className="text-xs px-2 py-0.5 bg-white border-2 border-black">영상</span>
+                      <span className="text-xs px-2 py-0.5 bg-neo-card border-2 border-neo-yellow text-white">영상</span>
                     </a>
                   </div>
                 </div>
               </div>
 
               {/* YouTube Section */}
-              <div className="mt-8 py-8 border-t-3 border-black">
+              <div className="mt-8 py-8 border-t-3 border-neo-yellow/30">
                 <div className="text-center space-y-6">
-                  <h3 className="inline-block text-lg font-black text-black px-4 py-2 bg-neo-red border-3 border-black shadow-neo-sm">
+                  <h3 className="inline-block text-lg font-black text-black px-4 py-2 bg-neo-red border-3 border-neo-yellow shadow-neo-sm">
                     YouTube
                   </h3>
                   <div className="flex justify-center gap-4 flex-wrap">
@@ -751,7 +751,7 @@ function App() {
                       rel="noopener noreferrer"
                       className={cn(
                         "inline-flex items-center gap-2 px-6 py-3",
-                        "bg-neo-red border-3 border-black shadow-neo-sm font-bold",
+                        "bg-neo-red border-3 border-neo-yellow shadow-neo-sm font-bold text-black",
                         "hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-neo",
                         "active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
                       )}
@@ -760,22 +760,22 @@ function App() {
                         <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
                       </svg>
                       <span>AI툴비 유튜브</span>
-                      <span className="text-xs px-2 py-0.5 bg-white border-2 border-black">채널</span>
+                      <span className="text-xs px-2 py-0.5 bg-neo-card border-2 border-neo-yellow text-white">채널</span>
                     </a>
                   </div>
                 </div>
               </div>
 
               {/* Footer Stats */}
-              <div className="mt-8 py-8 border-t-3 border-black">
+              <div className="mt-8 py-8 border-t-3 border-neo-yellow/30">
                 <div className="text-center space-y-3">
-                  <div className="inline-block px-6 py-3 bg-neo-yellow border-3 border-black shadow-neo-sm">
+                  <div className="inline-block px-6 py-3 bg-neo-yellow border-3 border-neo-yellow shadow-neo-sm">
                     <p className="text-sm font-bold text-black">
                       총 <span className="font-black">{totalServices}개</span>의 AI 서비스 •
                       <span className="font-black"> {categories.length}개</span> 카테고리
                     </p>
                   </div>
-                  <p className="text-xs font-medium text-gray-600">
+                  <p className="text-xs font-medium text-gray-400">
                     지속적으로 업데이트되고 있습니다
                   </p>
                 </div>

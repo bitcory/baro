@@ -83,7 +83,7 @@ export const TabBar = ({
   return (
     <div className={cn(
       'sticky top-16 z-40 w-full',
-      'bg-neo-bg border-b-3 border-black',
+      'bg-neo-bg border-b-3 border-neo-yellow/30',
       className
     )}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -116,11 +116,11 @@ export const TabBar = ({
                 draggable={editMode}
                 className={cn(
                   "relative group whitespace-nowrap px-4 py-2",
-                  "border-3 border-black font-bold",
+                  "border-3 border-neo-yellow font-bold",
                   "flex items-center select-none",
                   activeTab === index
-                    ? "bg-neo-pink shadow-neo-sm translate-x-[-2px] translate-y-[-2px]"
-                    : "bg-white hover:bg-neo-yellow hover:shadow-neo-sm hover:translate-x-[-2px] hover:translate-y-[-2px]",
+                    ? "bg-neo-pink text-black shadow-neo-sm translate-x-[-2px] translate-y-[-2px]"
+                    : "bg-neo-card text-white hover:bg-neo-yellow hover:text-black hover:shadow-neo-sm hover:translate-x-[-2px] hover:translate-y-[-2px]",
                   draggedIndex === index && "opacity-30",
                   dragOverIndex === index && draggedIndex !== index && "bg-neo-green",
                   editMode && "cursor-move"
@@ -130,15 +130,17 @@ export const TabBar = ({
                 {editMode && (
                   <GripVertical
                     size={14}
-                    className="mr-1.5 flex-shrink-0 text-black"
+                    className={cn("mr-1.5 flex-shrink-0", activeTab === index ? "text-black" : "text-neo-yellow")}
                   />
                 )}
 
                 <span className="flex items-center gap-2 pointer-events-none">
                   {category.name}
                   <span className={cn(
-                    "px-2 py-0.5 text-xs font-black border-2 border-black",
-                    activeTab === index ? "bg-white" : "bg-neo-bg"
+                    "px-2 py-0.5 text-xs font-black border-2",
+                    activeTab === index
+                      ? "bg-neo-card border-neo-yellow text-white"
+                      : "bg-neo-surface border-neo-yellow text-white"
                   )}>
                     {category.services.length}
                   </span>
@@ -152,7 +154,7 @@ export const TabBar = ({
                         e.stopPropagation();
                         onEditCategory(category.id);
                       }}
-                      className="p-1 bg-neo-blue border-2 border-black hover:shadow-neo-sm"
+                      className="p-1 bg-neo-blue border-2 border-neo-yellow hover:shadow-neo-sm"
                     >
                       <Edit2 size={10} className="text-black" />
                     </button>
@@ -161,7 +163,7 @@ export const TabBar = ({
                         e.stopPropagation();
                         onDeleteCategory(category.id);
                       }}
-                      className="p-1 bg-neo-red border-2 border-black hover:shadow-neo-sm"
+                      className="p-1 bg-neo-red border-2 border-neo-yellow hover:shadow-neo-sm"
                     >
                       <X size={10} className="text-black" />
                     </button>
@@ -176,8 +178,8 @@ export const TabBar = ({
             onClick={onAddCategory}
             className={cn(
               "whitespace-nowrap px-4 py-2",
-              "bg-white border-3 border-dashed border-black",
-              "font-bold text-gray-600",
+              "bg-neo-card border-3 border-dashed border-neo-yellow",
+              "font-bold text-gray-400",
               "hover:bg-neo-green hover:border-solid hover:text-black",
               "hover:shadow-neo-sm hover:translate-x-[-2px] hover:translate-y-[-2px]",
               "flex-shrink-0"

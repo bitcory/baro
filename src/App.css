@@ -1,4 +1,4 @@
-/* Neo-Brutalism App Styles */
+/* Neo-Brutalism Dark App Styles */
 
 /* Scrollbar hide */
 .scrollbar-hide {
@@ -10,14 +10,14 @@
   display: none;
 }
 
-/* Neo hover effect */
+/* Neo hover effect - Dark */
 .neo-hover {
   transition: transform 0.1s ease, box-shadow 0.1s ease;
 }
 
 .neo-hover:hover {
   transform: translate(-2px, -2px);
-  box-shadow: 6px 6px 0px 0px rgba(0,0,0,1);
+  box-shadow: 6px 6px 0px 0px var(--neo-yellow);
 }
 
 .neo-hover:active {
@@ -33,37 +33,38 @@
   overflow: hidden;
 }
 
-/* Neo badge */
+/* Neo badge - Dark */
 .neo-badge {
   display: inline-block;
   padding: 0.25rem 0.5rem;
   font-size: 0.75rem;
   font-weight: 700;
-  border: 2px solid black;
-  background: white;
+  border: 2px solid var(--neo-yellow);
+  background: var(--neo-card);
+  color: white;
 }
 
-/* Striped background pattern */
+/* Striped background pattern - Dark */
 .striped-bg {
   background-image: repeating-linear-gradient(
     45deg,
     transparent,
     transparent 10px,
-    rgba(0, 0, 0, 0.03) 10px,
-    rgba(0, 0, 0, 0.03) 20px
+    rgba(255, 225, 86, 0.05) 10px,
+    rgba(255, 225, 86, 0.05) 20px
   );
 }
 
-/* Dotted pattern */
+/* Dotted pattern - Dark */
 .dotted-bg {
-  background-image: radial-gradient(circle, #000 1px, transparent 1px);
+  background-image: radial-gradient(circle, var(--neo-yellow) 1px, transparent 1px);
   background-size: 20px 20px;
   background-color: var(--neo-bg);
 }
 
-/* Neo text shadow */
+/* Neo text shadow - Dark */
 .neo-text-shadow {
-  text-shadow: 2px 2px 0px rgba(0, 0, 0, 1);
+  text-shadow: 2px 2px 0px var(--neo-yellow);
 }
 
 /* Rotate on hover */
@@ -91,4 +92,13 @@
 
 .pop:hover {
   animation: pop 0.2s ease-in-out;
+}
+
+/* Glow effect for dark theme */
+.neo-glow {
+  box-shadow: 0 0 20px rgba(255, 225, 86, 0.3);
+}
+
+.neo-glow:hover {
+  box-shadow: 0 0 30px rgba(255, 225, 86, 0.5);
 }

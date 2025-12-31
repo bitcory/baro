@@ -96,31 +96,31 @@ export function EditServiceModal({ service, isOpen, onClose, onSave }) {
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-black/50"
+        className="absolute inset-0 bg-black/70"
         onClick={onClose}
       />
 
       {/* Modal */}
       <div className={cn(
         "relative w-full max-w-md",
-        "bg-white border-3 border-black shadow-neo-lg",
+        "bg-neo-card border-3 border-neo-yellow shadow-neo-lg",
         "animate-scale-in"
       )}>
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b-3 border-black bg-neo-yellow">
-          <h2 className="text-xl font-black text-black">
+        <div className="flex items-center justify-between p-4 border-b-3 border-neo-yellow bg-neo-surface">
+          <h2 className="text-xl font-black text-neo-yellow">
             서비스 편집
           </h2>
           <button
             onClick={onClose}
             className={cn(
-              "p-2 bg-white border-3 border-black",
+              "p-2 bg-neo-card border-3 border-neo-yellow",
               "hover:bg-neo-red hover:shadow-neo-sm",
               "hover:translate-x-[-2px] hover:translate-y-[-2px]",
               "active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
             )}
           >
-            <X className="w-5 h-5" />
+            <X className="w-5 h-5 text-neo-yellow hover:text-black" />
           </button>
         </div>
 
@@ -128,7 +128,7 @@ export function EditServiceModal({ service, isOpen, onClose, onSave }) {
         <form onSubmit={handleSubmit} className="p-6 space-y-5">
           {/* Service Name */}
           <div>
-            <label className="block text-sm font-bold text-black mb-2">
+            <label className="block text-sm font-bold text-white mb-2">
               서비스 이름
             </label>
             <input
@@ -137,8 +137,8 @@ export function EditServiceModal({ service, isOpen, onClose, onSave }) {
               onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
               className={cn(
                 "w-full px-4 py-3",
-                "bg-white border-3 border-black",
-                "text-black placeholder-gray-500 font-medium",
+                "bg-neo-surface border-3 border-neo-yellow",
+                "text-white placeholder-gray-400 font-medium",
                 "focus:outline-none focus:shadow-neo-sm"
               )}
               placeholder="예: ChatGPT"
@@ -148,7 +148,7 @@ export function EditServiceModal({ service, isOpen, onClose, onSave }) {
 
           {/* URL */}
           <div>
-            <label className="block text-sm font-bold text-black mb-2">
+            <label className="block text-sm font-bold text-white mb-2">
               URL
             </label>
             <input
@@ -157,15 +157,15 @@ export function EditServiceModal({ service, isOpen, onClose, onSave }) {
               onChange={handleUrlChange}
               className={cn(
                 "w-full px-4 py-3",
-                "bg-white border-3 border-black",
-                "text-black placeholder-gray-500 font-medium",
+                "bg-neo-surface border-3 border-neo-yellow",
+                "text-white placeholder-gray-400 font-medium",
                 "focus:outline-none focus:shadow-neo-sm"
               )}
               placeholder="https://example.com"
               required
             />
             {formData.url && (
-              <p className="mt-2 text-xs font-medium text-gray-600">
+              <p className="mt-2 text-xs font-medium text-gray-400">
                 파비콘이 자동으로 감지됩니다
               </p>
             )}
@@ -173,18 +173,18 @@ export function EditServiceModal({ service, isOpen, onClose, onSave }) {
 
           {/* Icon Preview and Input */}
           <div>
-            <label className="block text-sm font-bold text-black mb-2">
+            <label className="block text-sm font-bold text-white mb-2">
               아이콘
             </label>
             <div className="flex items-center gap-3">
               {/* Icon Preview */}
               <div className={cn(
                 "w-14 h-14",
-                "bg-neo-bg border-3 border-black",
+                "bg-neo-surface border-3 border-neo-yellow",
                 "flex items-center justify-center"
               )}>
                 {isLoadingFavicon ? (
-                  <Loader2 className="w-6 h-6 text-black animate-spin" />
+                  <Loader2 className="w-6 h-6 text-neo-yellow animate-spin" />
                 ) : formData.icon ? (
                   formData.icon.startsWith('http') ? (
                     <img
@@ -197,7 +197,7 @@ export function EditServiceModal({ service, isOpen, onClose, onSave }) {
                     <span className="text-2xl">{formData.icon}</span>
                   )
                 ) : (
-                  <Globe className="w-6 h-6 text-black" />
+                  <Globe className="w-6 h-6 text-neo-yellow" />
                 )}
               </div>
 
@@ -208,8 +208,8 @@ export function EditServiceModal({ service, isOpen, onClose, onSave }) {
                 onChange={(e) => setFormData(prev => ({ ...prev, icon: e.target.value }))}
                 className={cn(
                   "flex-1 px-4 py-3",
-                  "bg-white border-3 border-black",
-                  "text-black placeholder-gray-500 font-medium",
+                  "bg-neo-surface border-3 border-neo-yellow",
+                  "text-white placeholder-gray-400 font-medium",
                   "focus:outline-none focus:shadow-neo-sm"
                 )}
                 placeholder="비워두면 자동으로 파비콘 사용"
@@ -229,7 +229,7 @@ export function EditServiceModal({ service, isOpen, onClose, onSave }) {
               onClick={onClose}
               className={cn(
                 "flex-1 px-4 py-3 font-bold",
-                "bg-white border-3 border-black shadow-neo-sm",
+                "bg-neo-surface text-white border-3 border-neo-yellow shadow-neo-sm",
                 "hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-neo",
                 "active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
               )}
@@ -240,7 +240,7 @@ export function EditServiceModal({ service, isOpen, onClose, onSave }) {
               type="submit"
               className={cn(
                 "flex-1 px-4 py-3 font-bold",
-                "bg-neo-green border-3 border-black shadow-neo-sm",
+                "bg-neo-green text-black border-3 border-neo-yellow shadow-neo-sm",
                 "hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-neo",
                 "active:translate-x-[2px] active:translate-y-[2px] active:shadow-none",
                 "flex items-center justify-center gap-2"

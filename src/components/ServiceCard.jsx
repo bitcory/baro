@@ -37,7 +37,7 @@ export const ServiceCard = ({
       onClick={onClick}
       className={cn(
         "group relative",
-        "bg-white border-3 border-black shadow-neo",
+        "bg-neo-card border-3 border-neo-yellow shadow-neo",
         "hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-neo-hover",
         "active:translate-x-[2px] active:translate-y-[2px] active:shadow-none",
         editMode ? "cursor-move" : "cursor-pointer",
@@ -49,7 +49,7 @@ export const ServiceCard = ({
         {/* Icon */}
         <div className={cn(
           "w-14 h-14",
-          "bg-neo-bg border-3 border-black",
+          "bg-neo-surface border-3 border-neo-yellow",
           "flex items-center justify-center",
           "group-hover:bg-neo-yellow"
         )}>
@@ -63,22 +63,22 @@ export const ServiceCard = ({
               onError={() => setImgError(true)}
             />
           ) : (
-            <Globe className="w-6 h-6 text-black" />
+            <Globe className="w-6 h-6 text-neo-yellow group-hover:text-black" />
           )}
         </div>
 
         {/* Service Name */}
         <div className="text-center">
-          <h3 className="text-sm font-bold text-black line-clamp-1">
+          <h3 className="text-sm font-bold text-white line-clamp-1">
             {service.name}
           </h3>
           {showCategory && (
-            <span className="inline-block mt-1.5 px-2 py-0.5 text-xs font-bold bg-neo-blue border-2 border-black">
+            <span className="inline-block mt-1.5 px-2 py-0.5 text-xs font-bold bg-neo-blue border-2 border-neo-yellow text-black">
               {showCategory}
             </span>
           )}
           {service.description && (
-            <p className="text-xs text-gray-600 mt-1 line-clamp-2">
+            <p className="text-xs text-gray-400 mt-1 line-clamp-2">
               {service.description}
             </p>
           )}
@@ -87,7 +87,7 @@ export const ServiceCard = ({
         {/* Hover Indicator */}
         {!editMode && (
           <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
-            <div className="p-1 bg-neo-green border-2 border-black">
+            <div className="p-1 bg-neo-green border-2 border-neo-yellow">
               <ExternalLink className="w-3.5 h-3.5 text-black" />
             </div>
           </div>
@@ -101,7 +101,7 @@ export const ServiceCard = ({
                 e.stopPropagation();
                 onEdit();
               }}
-              className="p-1.5 bg-neo-blue border-2 border-black hover:shadow-neo-sm"
+              className="p-1.5 bg-neo-blue border-2 border-neo-yellow hover:shadow-neo-sm"
             >
               <Edit2 size={12} className="text-black" />
             </button>
@@ -110,7 +110,7 @@ export const ServiceCard = ({
                 e.stopPropagation();
                 onDelete();
               }}
-              className="p-1.5 bg-neo-red border-2 border-black hover:shadow-neo-sm"
+              className="p-1.5 bg-neo-red border-2 border-neo-yellow hover:shadow-neo-sm"
             >
               <Trash2 size={12} className="text-black" />
             </button>

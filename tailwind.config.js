@@ -11,9 +11,11 @@ export default {
         sans: ['Inter', 'Noto Sans KR', 'system-ui', 'sans-serif'],
       },
       colors: {
-        // Neo-Brutalism color palette
+        // Neo-Brutalism Dark color palette
         'neo': {
-          'bg': '#FEF3E2',
+          'bg': '#0f0f1a',
+          'card': '#1a1a2e',
+          'surface': '#252545',
           'yellow': '#FFE156',
           'green': '#7CFF6B',
           'blue': '#6BB5FF',
@@ -21,6 +23,7 @@ export default {
           'purple': '#B56BFF',
           'orange': '#FF9F6B',
           'red': '#FF6B6B',
+          'cyan': '#6BFFF0',
         },
       },
       borderWidth: {

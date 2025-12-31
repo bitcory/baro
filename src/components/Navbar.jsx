@@ -20,7 +20,7 @@ export const Navbar = ({
     <nav
       className={cn(
         'w-full sticky top-0 z-50',
-        'bg-neo-yellow border-b-3 border-black',
+        'bg-neo-card border-b-3 border-neo-yellow',
         className
       )}
     >
@@ -41,7 +41,7 @@ export const Navbar = ({
               className="flex-shrink-0 cursor-pointer group"
             >
               <h1 className={cn(
-                "text-2xl font-black text-black",
+                "text-2xl font-black text-neo-yellow",
                 "hover:rotate-[-2deg]",
                 "transition-transform duration-100"
               )}>
@@ -56,7 +56,7 @@ export const Navbar = ({
             <button
               onClick={onBackup}
               className={cn(
-                "p-2 bg-neo-blue border-3 border-black shadow-neo-sm",
+                "p-2 bg-neo-blue border-3 border-neo-yellow shadow-neo-sm",
                 "hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-neo",
                 "active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
               )}
@@ -70,7 +70,7 @@ export const Navbar = ({
             <button
               onClick={() => fileInputRef.current?.click()}
               className={cn(
-                "p-2 bg-neo-green border-3 border-black shadow-neo-sm",
+                "p-2 bg-neo-green border-3 border-neo-yellow shadow-neo-sm",
                 "hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-neo",
                 "active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
               )}
@@ -97,11 +97,11 @@ export const Navbar = ({
             <button
               onClick={onEditToggle}
               className={cn(
-                "px-4 py-2 font-bold border-3 border-black shadow-neo-sm",
+                "px-4 py-2 font-bold border-3 border-neo-yellow shadow-neo-sm text-black",
                 "flex items-center gap-2",
                 "hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-neo",
                 "active:translate-x-[2px] active:translate-y-[2px] active:shadow-none",
-                editMode ? "bg-neo-pink" : "bg-white"
+                editMode ? "bg-neo-pink" : "bg-neo-yellow"
               )}
             >
               <Edit2 size={16} className={editMode ? "animate-spin" : ""} />
@@ -114,7 +114,7 @@ export const Navbar = ({
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className={cn(
-                "p-2 bg-white border-3 border-black shadow-neo-sm",
+                "p-2 bg-neo-yellow border-3 border-neo-yellow shadow-neo-sm",
                 "hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-neo",
                 "active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
               )}
@@ -131,18 +131,18 @@ export const Navbar = ({
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-t-3 border-black bg-white">
+        <div className="md:hidden border-t-3 border-neo-yellow bg-neo-surface">
           <div className="px-4 py-3 space-y-2">
             <button
               onClick={onBackup}
-              className="w-full flex items-center gap-3 px-4 py-3 bg-neo-blue border-3 border-black font-bold hover:shadow-neo-sm"
+              className="w-full flex items-center gap-3 px-4 py-3 bg-neo-blue border-3 border-neo-yellow font-bold text-black hover:shadow-neo-sm"
             >
               <Download size={18} />
               백업 다운로드
             </button>
             <button
               onClick={() => fileInputRef.current?.click()}
-              className="w-full flex items-center gap-3 px-4 py-3 bg-neo-green border-3 border-black font-bold hover:shadow-neo-sm"
+              className="w-full flex items-center gap-3 px-4 py-3 bg-neo-green border-3 border-neo-yellow font-bold text-black hover:shadow-neo-sm"
             >
               <Upload size={18} />
               백업 복원
@@ -150,8 +150,8 @@ export const Navbar = ({
             <button
               onClick={onEditToggle}
               className={cn(
-                "w-full flex items-center gap-3 px-4 py-3 border-3 border-black font-bold hover:shadow-neo-sm",
-                editMode ? "bg-neo-pink" : "bg-white"
+                "w-full flex items-center gap-3 px-4 py-3 border-3 border-neo-yellow font-bold hover:shadow-neo-sm",
+                editMode ? "bg-neo-pink text-black" : "bg-neo-yellow text-black"
               )}
             >
               <Edit2 size={18} />

@@ -45,8 +45,8 @@ export const IntroPage = ({ onEnter }) => {
         />
       </div>
 
-      {/* Overlay */}
-      <div className="absolute inset-0 bg-black/30 pointer-events-none" />
+      {/* Overlay - Darker for dark theme */}
+      <div className="absolute inset-0 bg-black/50 pointer-events-none" />
 
       {/* Content */}
       <div className={cn(
@@ -57,7 +57,7 @@ export const IntroPage = ({ onEnter }) => {
         {/* Logo Box */}
         <div className={cn(
           "inline-block px-8 py-4 mb-6",
-          "bg-neo-yellow border-4 border-black shadow-neo-lg"
+          "bg-neo-yellow border-4 border-neo-yellow shadow-neo-lg"
         )}>
           <h1 className="text-5xl sm:text-7xl font-black text-black">
             BAROGA
@@ -66,8 +66,8 @@ export const IntroPage = ({ onEnter }) => {
 
         <p className={cn(
           "inline-block px-4 py-2 mb-8",
-          "bg-white border-3 border-black shadow-neo-sm",
-          "text-lg sm:text-xl font-bold text-black"
+          "bg-neo-card border-3 border-neo-yellow shadow-neo-sm",
+          "text-lg sm:text-xl font-bold text-white"
         )}>
           AI Tools Directory
         </p>
@@ -78,7 +78,7 @@ export const IntroPage = ({ onEnter }) => {
             onClick={handleEnter}
             className={cn(
               "px-8 py-4",
-              "bg-neo-green border-4 border-black shadow-neo",
+              "bg-neo-green border-4 border-neo-yellow shadow-neo",
               "text-black font-black text-xl",
               "hover:translate-x-[-4px] hover:translate-y-[-4px] hover:shadow-neo-lg",
               "active:translate-x-[4px] active:translate-y-[4px] active:shadow-none",
@@ -101,8 +101,8 @@ export const IntroPage = ({ onEnter }) => {
         {/* Skip hint */}
         <p className={cn(
           "mt-6 px-3 py-1",
-          "bg-black text-white text-sm font-bold",
-          "inline-block"
+          "bg-neo-yellow text-black text-sm font-bold",
+          "inline-block border-2 border-neo-yellow"
         )}>
           Click anywhere to enter
         </p>
