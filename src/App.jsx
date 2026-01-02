@@ -153,6 +153,20 @@ function App() {
     if (savedData) {
       const parsed = JSON.parse(savedData);
       let updatedCategories = parsed.categories;
+
+      // URL 마이그레이션: tbframe.aitoolb.com -> tbfm.aitoolb.com
+      let needsMigration = false;
+      updatedCategories = updatedCategories.map(category => ({
+        ...category,
+        services: category.services.map(service => {
+          if (service.url && service.url.includes('tbframe.aitoolb.com')) {
+            needsMigration = true;
+            return { ...service, url: service.url.replace('tbframe.aitoolb.com', 'tbfm.aitoolb.com') };
+          }
+          return service;
+        })
+      }));
+
       const hasAIToolbCategory = updatedCategories.some(cat => cat.name === 'AI툴비');
 
       if (!hasAIToolbCategory) {
@@ -172,7 +186,7 @@ function App() {
 
       setCategories(categoriesWithoutIcons);
 
-      if (!hasAIToolbCategory) {
+      if (!hasAIToolbCategory || needsMigration) {
         localStorage.setItem('aiToolsData', JSON.stringify({ categories: categoriesWithoutIcons }));
       }
     } else {
