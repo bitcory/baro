@@ -67,7 +67,7 @@ const defaultData = {
         { id: 20, name: 'Midjourney', url: 'https://midjourney.com' },
         { id: 21, name: 'Hailuo', url: 'https://hailuo.ai' },
         { id: 22, name: 'Higgsfield', url: 'https://higgsfield.ai' },
-        { id: 23, name: 'Kling', url: 'https://klingai.com' },
+        { id: 23, name: 'Kling', url: 'https://pro.klingai.com/h5-app/invitation?code=7BHYXTY6TMGH' },
         { id: 24, name: 'Runway', url: 'https://runway.com' },
         { id: 25, name: 'Pika Labs', url: 'https://pika.art' },
         { id: 26, name: 'Luma AI', url: 'https://lumalabs.ai' },
