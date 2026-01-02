@@ -168,6 +168,21 @@ function App() {
         })
       }));
 
+      // 새 서비스 마이그레이션: AI툴비 카테고리에 음악생성젬 추가
+      updatedCategories = updatedCategories.map(category => {
+        if (category.name === 'AI툴비') {
+          const hasMusicGem = category.services.some(s => s.id === 57 || s.name === '음악생성젬');
+          if (!hasMusicGem) {
+            needsMigration = true;
+            return {
+              ...category,
+              services: [...category.services, { id: 57, name: '음악생성젬', url: 'https://gemini.google.com/gem/1s8f2dOr9ZGwCBrOWwbeW-8kZ3_qK-AqP?usp=sharing' }]
+            };
+          }
+        }
+        return category;
+      });
+
       const hasAIToolbCategory = updatedCategories.some(cat => cat.name === 'AI툴비');
 
       if (!hasAIToolbCategory) {
