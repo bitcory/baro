@@ -19,6 +19,7 @@ const defaultData = {
         { id: 54, name: '강의노트', url: 'https://sites.google.com/view/aitoolb01/' },
         { id: 52, name: '이미지생성기', url: 'https://tbpc.aitoolb.com/' },
         { id: 56, name: '툴비프레임추출기', url: 'https://tbfm.aitoolb.com/' },
+        { id: 57, name: '음악생성젬', url: 'https://gemini.google.com/gem/1s8f2dOr9ZGwCBrOWwbeW-8kZ3_qK-AqP?usp=sharing' },
       ]
     },
     {
