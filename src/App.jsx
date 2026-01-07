@@ -105,8 +105,7 @@ const defaultData = {
         {
           id: 1767761193145,
           name: '오픈챗팅방 바로가기',
-          url: 'https://open.kakao.com/o/gWR9vhXh',
-          icon: 'https://icons.duckduckgo.com/ip3/open.kakao.com.ico'
+          url: 'https://open.kakao.com/o/gWR9vhXh'
         }
       ]
     },
@@ -178,14 +177,14 @@ const defaultData = {
         },
         {
           id: 13,
-          name: "IMAGEFX",
-          url: "https://labs.google/fx/ko/tools/image-fx"
+          name: 'IMAGEFX',
+          url: 'https://labs.google/fx/ko/tools/image-fx'
         },
         {
           id: 14,
           name: 'Whisk',
           url: 'https://whisk.com'
-        },
+        }
       ]
     },
     {
@@ -198,14 +197,29 @@ const defaultData = {
           url: 'https://klingai.com'
         },
         {
-          id: 20,
-          name: 'Midjourney',
-          url: 'https://midjourney.com'
+          id: 1767777241794,
+          name: '그록',
+          url: 'https://grok.com/'
+        },
+        {
+          id: 1767777269565,
+          name: '소라2',
+          url: 'https://sora.chatgpt.com/'
         },
         {
           id: 19,
           name: 'VEO 3',
           url: 'https://veo3.ai'
+        },
+        {
+          id: 1767777299719,
+          name: 'FLOW',
+          url: 'https://labs.google/flow'
+        },
+        {
+          id: 20,
+          name: 'Midjourney',
+          url: 'https://midjourney.com'
         },
         {
           id: 21,
