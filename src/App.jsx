@@ -16,116 +16,366 @@ const defaultData = {
       id: 2,
       name: 'AI툴비',
       services: [
-        { id: 54, name: '강의노트', url: 'https://sites.google.com/view/aitoolb01/' },
-        { id: 52, name: '이미지생성기', url: 'https://tbpc.aitoolb.com/' },
-        { id: 56, name: '툴비프레임추출기', url: 'https://tbfm.aitoolb.com/' },
-        { id: 57, name: '음악생성젬', url: 'https://gemini.google.com/gem/1s8f2dOr9ZGwCBrOWwbeW-8kZ3_qK-AqP?usp=sharing' },
+        {
+          id: 54,
+          name: '강의노트',
+          url: 'https://sites.google.com/view/aitoolb01/'
+        },
+        {
+          id: 52,
+          name: '이미지생성기',
+          url: 'https://tbpc.aitoolb.com/'
+        },
+        {
+          id: 56,
+          name: '툴비프레임추출기',
+          url: 'https://tbfm.aitoolb.com/'
+        },
+        {
+          id: 57,
+          name: '음악생성젬',
+          url: 'https://gemini.google.com/gem/1s8f2dOr9ZGwCBrOWwbeW-8kZ3_qK-AqP?usp=sharing'
+        },
+        {
+          id: 1767691660237,
+          name: 'TB챗팅',
+          url: 'https://chat.aitoolb.com/'
+        }
       ]
     },
     {
       id: 1,
       name: '검색',
       services: [
-        { id: 55, name: '유튜브', url: 'https://www.youtube.com/?app=desktop&hl=ko&gl=KR' },
-        { id: 1, name: '네이버', url: 'https://www.naver.com' },
-        { id: 2, name: '구글', url: 'https://www.google.com' },
-        { id: 3, name: '다음', url: 'https://www.daum.net' },
-        { id: 4, name: '네이트', url: 'https://www.nate.com' },
-      ]
-    },
-    {
-      id: 3,
-      name: 'AI 에이전트',
-      services: [
-        { id: 5, name: 'ChatGPT', url: 'https://chat.openai.com' },
-        { id: 6, name: 'Perplexity', url: 'https://www.perplexity.ai' },
-        { id: 7, name: 'Gemini', url: 'https://gemini.google.com' },
-        { id: 8, name: 'Genspark', url: 'https://genspark.ai' },
-        { id: 9, name: 'Flowith', url: 'https://flowith.io' },
-        { id: 10, name: 'Claude', url: 'https://claude.ai' },
-        { id: 11, name: 'Manus', url: 'https://manus.ai' },
-      ]
-    },
-    {
-      id: 4,
-      name: '이미지',
-      services: [
-        { id: 12, name: 'Midjourney', url: 'https://midjourney.com' },
-        { id: 13, name: 'Nano Banana', url: 'https://aistudio.google.com/prompts/new_chat' },
-        { id: 14, name: 'Flux', url: 'https://flux.ai' },
-        { id: 15, name: 'Sora', url: 'https://openai.com/sora' },
-        { id: 16, name: 'Whisk', url: 'https://whisk.com' },
-        { id: 17, name: 'Dreamina', url: 'https://dreamina.ai' },
-        { id: 18, name: 'Qwen', url: 'https://qwen.ai' },
-      ]
-    },
-    {
-      id: 5,
-      name: '비디오',
-      services: [
-        { id: 19, name: 'VEO 3', url: 'https://veo3.ai' },
-        { id: 20, name: 'Midjourney', url: 'https://midjourney.com' },
-        { id: 21, name: 'Hailuo', url: 'https://hailuo.ai' },
-        { id: 22, name: 'Higgsfield', url: 'https://higgsfield.ai' },
-        { id: 23, name: 'Kling', url: 'https://pro.klingai.com/h5-app/invitation?code=7BHYXTY6TMGH' },
-        { id: 24, name: 'Runway', url: 'https://runway.com' },
-        { id: 25, name: 'Pika Labs', url: 'https://pika.art' },
-        { id: 26, name: 'Luma AI', url: 'https://lumalabs.ai' },
-        { id: 27, name: 'Topaz', url: 'https://topazlabs.com' },
-        { id: 28, name: 'Freepik', url: 'https://freepik.com' },
-      ]
-    },
-    {
-      id: 6,
-      name: '음성/립싱크',
-      services: [
-        { id: 29, name: 'Elevenlabs', url: 'https://elevenlabs.io' },
-        { id: 30, name: 'Perso', url: 'https://perso.ai' },
-        { id: 31, name: 'Supertone', url: 'https://supertone.ai' },
-        { id: 32, name: 'Typecast', url: 'https://typecast.ai' },
-        { id: 33, name: 'Heygen', url: 'https://heygen.com' },
-        { id: 34, name: 'Hedra', url: 'https://hedra.ai' },
-      ]
-    },
-    {
-      id: 7,
-      name: '바이브코딩',
-      services: [
-        { id: 35, name: 'Github', url: 'https://github.com' },
-        { id: 36, name: 'Google AI Studio', url: 'https://aistudio.google.com' },
-        { id: 37, name: 'Claude', url: 'https://claude.ai' },
-        { id: 38, name: 'Cursor', url: 'https://cursor.sh' },
-        { id: 39, name: 'Lovable', url: 'https://lovable.dev' },
-        { id: 40, name: 'Replit AI', url: 'https://replit.com' },
-        { id: 41, name: 'Base44', url: 'https://base44.com' },
-        { id: 42, name: 'Bolt', url: 'https://bolt.new' },
-        { id: 51, name: 'Netlify', url: 'https://www.netlify.com' },
-      ]
-    },
-    {
-      id: 8,
-      name: '음악',
-      services: [
-        { id: 43, name: 'Suno AI', url: 'https://suno.ai' },
-        { id: 44, name: 'Udio', url: 'https://udio.com' },
-        { id: 45, name: 'AIVA', url: 'https://aiva.ai' },
-      ]
-    },
-    {
-      id: 9,
-      name: '편집/자막',
-      services: [
-        { id: 46, name: 'opus', url: 'https://opus.pro' },
-        { id: 47, name: 'Cutback', url: 'https://cutback.video/ko/' },
-        { id: 48, name: 'Capcut', url: 'https://capcut.com' },
+        {
+          id: 55,
+          name: '유튜브',
+          url: 'https://www.youtube.com/?app=desktop&hl=ko&gl=KR'
+        },
+        {
+          id: 1,
+          name: '네이버',
+          url: 'https://www.naver.com'
+        },
+        {
+          id: 1767678342753,
+          name: '스레드',
+          url: 'https://www.threads.com/'
+        },
+        {
+          id: 1767678382870,
+          name: '인스타',
+          url: 'https://www.instagram.com/'
+        },
+        {
+          id: 2,
+          name: '구글',
+          url: 'https://www.google.com'
+        },
+        {
+          id: 1767678626502,
+          name: '구글AI스튜디오',
+          url: 'https://aistudio.google.com/'
+        },
+        {
+          id: 1767681469172,
+          name: '티스토리',
+          url: 'https://www.tistory.com/'
+        },
+        {
+          id: 3,
+          name: '다음',
+          url: 'https://www.daum.net'
+        },
+        {
+          id: 4,
+          name: '네이트',
+          url: 'https://www.nate.com'
+        },
+        {
+          id: 1767680606766,
+          name: '구글클라우드',
+          url: 'https://console.cloud.google.com/'
+        },
+        {
+          id: 1767693761163,
+          name: '구글번역',
+          url: 'https://translate.google.co.kr/'
+        },
+        {
+          id: 1767761193145,
+          name: '오픈챗팅방 바로가기',
+          url: 'https://open.kakao.com/o/gWR9vhXh',
+          icon: 'https://icons.duckduckgo.com/ip3/open.kakao.com.ico'
+        }
       ]
     },
     {
       id: 10,
       name: '비즈니스',
       services: [
-        { id: 49, name: 'Gamma', url: 'https://gamma.app' },
-        { id: 50, name: 'Notebook LM', url: 'https://notebooklm.google.com' },
+        {
+          id: 1767681408604,
+          name: '알앤픽전산',
+          url: 'http://211.233.36.36:8181/logout.do'
+        },
+        {
+          id: 50,
+          name: 'Notebook LM',
+          url: 'https://notebooklm.google.com'
+        },
+        {
+          id: 49,
+          name: 'Gamma',
+          url: 'https://gamma.app'
+        }
+      ]
+    },
+    {
+      id: 3,
+      name: 'AI 에이전트',
+      services: [
+        {
+          id: 5,
+          name: 'ChatGPT',
+          url: 'https://chat.openai.com'
+        },
+        {
+          id: 6,
+          name: 'Perplexity',
+          url: 'https://www.perplexity.ai'
+        },
+        {
+          id: 7,
+          name: 'Gemini',
+          url: 'https://gemini.google.com'
+        },
+        {
+          id: 8,
+          name: 'Genspark',
+          url: 'https://genspark.ai'
+        },
+        {
+          id: 9,
+          name: 'Flowith',
+          url: 'https://flowith.io'
+        },
+        {
+          id: 10,
+          name: 'Claude',
+          url: 'https://claude.ai'
+        },
+        {
+          id: 11,
+          name: 'Manus',
+          url: 'https://manus.ai'
+        }
+      ]
+    },
+    {
+      id: 4,
+      name: '이미지',
+      services: [
+        {
+          id: 12,
+          name: 'Midjourney',
+          url: 'https://midjourney.com'
+        },
+        {
+          id: 13,
+          name: "IMAGEFX",
+          url: "https://labs.google/fx/ko/tools/image-fx"
+        },
+        {
+          id: 14,
+          name: 'Whisk',
+          url: 'https://whisk.com'
+        },
+      ]
+    },
+    {
+      id: 5,
+      name: '비디오',
+      services: [
+        {
+          id: 23,
+          name: 'Kling',
+          url: 'https://klingai.com'
+        },
+        {
+          id: 20,
+          name: 'Midjourney',
+          url: 'https://midjourney.com'
+        },
+        {
+          id: 19,
+          name: 'VEO 3',
+          url: 'https://veo3.ai'
+        },
+        {
+          id: 21,
+          name: 'Hailuo',
+          url: 'https://hailuo.ai'
+        },
+        {
+          id: 22,
+          name: 'Higgsfield',
+          url: 'https://higgsfield.ai'
+        },
+        {
+          id: 24,
+          name: 'Runway',
+          url: 'https://runway.com'
+        },
+        {
+          id: 25,
+          name: 'Pika Labs',
+          url: 'https://pika.art'
+        },
+        {
+          id: 26,
+          name: 'Luma AI',
+          url: 'https://lumalabs.ai'
+        },
+        {
+          id: 27,
+          name: 'Topaz',
+          url: 'https://topazlabs.com'
+        },
+        {
+          id: 28,
+          name: 'Freepik',
+          url: 'https://freepik.com'
+        }
+      ]
+    },
+    {
+      id: 6,
+      name: '음성/립싱크',
+      services: [
+        {
+          id: 29,
+          name: 'Elevenlabs',
+          url: 'https://elevenlabs.io'
+        },
+        {
+          id: 30,
+          name: 'Perso',
+          url: 'https://perso.ai'
+        },
+        {
+          id: 31,
+          name: 'Supertone',
+          url: 'https://supertone.ai'
+        },
+        {
+          id: 32,
+          name: 'Typecast',
+          url: 'https://typecast.ai'
+        },
+        {
+          id: 33,
+          name: 'Heygen',
+          url: 'https://heygen.com'
+        },
+        {
+          id: 34,
+          name: 'Hedra',
+          url: 'https://hedra.ai'
+        }
+      ]
+    },
+    {
+      id: 7,
+      name: '바이브코딩',
+      services: [
+        {
+          id: 35,
+          name: 'Github',
+          url: 'https://github.com'
+        },
+        {
+          id: 36,
+          name: 'Google AI Studio',
+          url: 'https://aistudio.google.com'
+        },
+        {
+          id: 37,
+          name: 'Claude',
+          url: 'https://claude.ai'
+        },
+        {
+          id: 38,
+          name: 'Cursor',
+          url: 'https://cursor.sh'
+        },
+        {
+          id: 39,
+          name: 'Lovable',
+          url: 'https://lovable.dev'
+        },
+        {
+          id: 40,
+          name: 'Replit AI',
+          url: 'https://replit.com'
+        },
+        {
+          id: 41,
+          name: 'Base44',
+          url: 'https://base44.com'
+        },
+        {
+          id: 42,
+          name: 'Bolt',
+          url: 'https://bolt.new'
+        },
+        {
+          id: 51,
+          name: 'Netlify',
+          url: 'https://www.netlify.com'
+        }
+      ]
+    },
+    {
+      id: 8,
+      name: '음악',
+      services: [
+        {
+          id: 43,
+          name: 'Suno AI',
+          url: 'https://suno.ai'
+        },
+        {
+          id: 44,
+          name: 'Udio',
+          url: 'https://udio.com'
+        },
+        {
+          id: 45,
+          name: 'AIVA',
+          url: 'https://aiva.ai'
+        }
+      ]
+    },
+    {
+      id: 9,
+      name: '편집/자막',
+      services: [
+        {
+          id: 46,
+          name: 'opus',
+          url: 'https://opus.pro'
+        },
+        {
+          id: 47,
+          name: 'Cutback',
+          url: 'https://cutback.video/ko/'
+        },
+        {
+          id: 48,
+          name: 'Capcut',
+          url: 'https://capcut.com'
+        }
       ]
     }
   ]
