@@ -115,11 +115,6 @@ const defaultData = {
       name: '비즈니스',
       services: [
         {
-          id: 1767681408604,
-          name: '알앤픽전산',
-          url: 'http://211.233.36.36:8181/logout.do'
-        },
-        {
           id: 50,
           name: 'Notebook LM',
           url: 'https://notebooklm.google.com'
