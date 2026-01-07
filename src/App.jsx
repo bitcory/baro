@@ -670,10 +670,10 @@ function App() {
     const targetIndex = targetCategory.services.findIndex(s => s.id === targetService.id);
 
     if (sourceCategoryId === targetCategoryId) {
-      const adjustedTargetIndex = sourceIndex < targetIndex ? targetIndex - 1 : targetIndex;
-      targetCategory.services.splice(adjustedTargetIndex + 1, 0, sourceService);
+      const insertIndex = sourceIndex < targetIndex ? targetIndex - 1 : targetIndex;
+      targetCategory.services.splice(insertIndex, 0, sourceService);
     } else {
-      targetCategory.services.splice(targetIndex + 1, 0, sourceService);
+      targetCategory.services.splice(targetIndex, 0, sourceService);
     }
 
     setCategories(newCategories);
